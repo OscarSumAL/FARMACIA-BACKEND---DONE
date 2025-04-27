@@ -14,17 +14,20 @@ async function main() {
   console.log('🗑️ Base de datos limpiada');
 
   // Crear usuario administrador
-  const adminPassword = await bcrypt.hash('admin123', 10);
-  const admin = await prisma.usuario.create({
-    data: {
-      email: 'admin@farmacia.com',
+  const hashedPassword = await bcrypt.hash('12345678', 10);
+  
+  const admin = await prisma.usuario.upsert({
+    where: { email: 'admin@admin.com' },
+    update: {},
+    create: {
+      email: 'admin@admin.com',
       nombre: 'Administrador',
-      password: adminPassword,
-      role: 'ADMIN',
-    },
+      password: hashedPassword,
+      role: 'ADMIN'
+    }
   });
 
-  console.log('👤 Usuario administrador creado:', admin.email);
+  console.log('Usuario admin creado:', admin);
 
   // Crear productos
   const productos = await Promise.all([

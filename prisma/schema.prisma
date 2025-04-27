@@ -6,69 +6,67 @@
 
 generator client {
   provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
   provider = "sqlite"
-  url      = env("DATABASE_URL")
+  url      = "file:./dev.db"
 }
 
 model Usuario {
-  id            String    @id @default(cuid())
-  email         String    @unique
-  nombre        String
-  password      String
-  role          String    @default("ADMIN")
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-
-  @@index([email])
+  id        String   @id @default(cuid())
+  email     String   @unique
+  nombre    String
+  password  String
+  role      String   @default("ADMIN")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Producto {
-  id          Int      @id @default(autoincrement())
+  id          Int            @id @default(autoincrement())
   nombre      String
-  descripcion String
+  descripcion String?
   precio      Float
-  stock       Int
-  stockMinimo Int      @default(5)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  stock       Int           @default(0)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  ventas      DetalleVenta[]
 }
 
 model Cliente {
-  id              String    @id @default(cuid())
-  nombre          String
-  documento       String    @unique
-  telefono        String?
-  email           String?   @unique
-  direccion       String?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  ventas          Venta[]
-
-  @@index([documento])
-  @@index([email])
+  id        Int      @id @default(autoincrement())
+  nombre    String
+  documento String   @unique
+  telefono  String?
+  email     String?  @unique
+  direccion String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ventas    Venta[]
 }
 
 model Venta {
-  id          Int       @id @default(autoincrement())
-  productos   ProductoVenta[]
-  total       Float
-  metodoPago  String
-  fecha       DateTime  @default(now())
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  cliente     Cliente   @relation(fields: [clienteId], references: [id])
-  clienteId   String
+  id            Int            @id @default(autoincrement())
+  total         Float
+  metodoPago    String
+  documento     String
+  fecha         DateTime       @default(now())
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  cliente       Cliente        @relation(fields: [documento], references: [documento])
+  productos     DetalleVenta[]
 }
 
-model ProductoVenta {
-  id          Int      @id @default(autoincrement())
-  productoId  Int
-  ventaId     Int
-  cantidad    Int
-  venta       Venta    @relation(fields: [ventaId], references: [id])
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+model DetalleVenta {
+  id         Int      @id @default(autoincrement())
+  ventaId    Int
+  productoId Int
+  cantidad   Int
+  precio     Float
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  venta      Venta    @relation(fields: [ventaId], references: [id])
+  producto   Producto @relation(fields: [productoId], references: [id])
 }

@@ -130,7 +130,6 @@ exports.Prisma.ProductoScalarFieldEnum = {
   descripcion: 'descripcion',
   precio: 'precio',
   stock: 'stock',
-  stockMinimo: 'stockMinimo',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -148,20 +147,20 @@ exports.Prisma.ClienteScalarFieldEnum = {
 
 exports.Prisma.VentaScalarFieldEnum = {
   id: 'id',
-  fecha: 'fecha',
   total: 'total',
-  clienteId: 'clienteId',
+  metodoPago: 'metodoPago',
+  documento: 'documento',
+  fecha: 'fecha',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
 
 exports.Prisma.DetalleVentaScalarFieldEnum = {
   id: 'id',
-  cantidad: 'cantidad',
-  precioUnitario: 'precioUnitario',
-  subtotal: 'subtotal',
   ventaId: 'ventaId',
   productoId: 'productoId',
+  cantidad: 'cantidad',
+  precio: 'precio',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

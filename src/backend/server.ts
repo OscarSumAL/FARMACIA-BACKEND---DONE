@@ -1,11 +1,16 @@
-import express, { Request, Response, Router, RequestHandler, NextFunction } from 'express';
-import { PrismaClient } from '@prisma/client';
+import express, { Request, Response, Router, NextFunction } from 'express';
+import { RequestHandler } from 'express-serve-static-core';
+import { PrismaClient } from '../generated/prisma';
 import cors from 'cors';
 
 const prisma = new PrismaClient();
 const app = express();
 const router = Router();
-const PORT = process.env.PORT || 3000;
+const PORT = Number(process.env.PORT) || 3000;
+const HOST = '0.0.0.0'; // Permitir conexiones desde cualquier IP
+
+// Variable global para controlar el estado de la sesión
+let isAuthenticated = false;
 
 // Middleware
 app.use(cors());
@@ -45,25 +50,31 @@ const getAllProductos: RequestHandler = async (_req, res, next) => {
   }
 };
 
-const getProductoById: RequestHandler<ParamsWithId> = async (req, res, next) => {
+const getProductoById: RequestHandler = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
+    const id = parseInt(req.params.id);
+    if (isNaN(id)) {
+      res.status(400).json({ success: false, message: 'ID inválido' });
+      return;
+    }
     const producto = await prisma.producto.findUnique({
-      where: { id: parseInt(req.params.id) }
+      where: { id }
     });
     if (!producto) {
       res.status(404).json({ success: false, message: 'Producto no encontrado' });
       return;
     }
     res.json({ success: true, data: producto });
-  } catch (error: any) {
+  } catch (error) {
     next(error);
   }
 };
 
 const updateProducto: RequestHandler = async (req, res, next) => {
   try {
+    const id = parseInt(req.body.id);
     const producto = await prisma.producto.update({
-      where: { id: req.body.id },
+      where: { id },
       data: req.body
     });
     res.json({ success: true, data: producto });
@@ -72,38 +83,46 @@ const updateProducto: RequestHandler = async (req, res, next) => {
   }
 };
 
-const updateProductoStock: RequestHandler<ParamsWithId> = async (req, res, next) => {
+const updateProductoStock: RequestHandler = async (req, res, next) => {
   try {
-    const producto = await prisma.producto.findUnique({
-      where: { id: parseInt(req.params.id) }
-    });
-    
-    if (!producto) {
-      res.status(404).json({ success: false, message: 'Producto no encontrado' });
+    const id = parseInt(req.params.id);
+    if (isNaN(id)) {
+      res.status(400).json({ success: false, message: 'ID inválido' });
       return;
     }
 
-    const nuevoStock = producto.stock + req.body.cantidad;
-    if (nuevoStock < 0) {
-      res.status(400).json({ success: false, message: 'Stock insuficiente' });
+    // Primero verificar si el producto existe
+    const productoExistente = await prisma.producto.findUnique({
+      where: { id }
+    });
+
+    if (!productoExistente) {
+      res.status(404).json({ 
+        success: false, 
+        message: `No se encontró el producto con ID ${id}` 
+      });
       return;
     }
 
-    const productoActualizado = await prisma.producto.update({
-      where: { id: parseInt(req.params.id) },
-      data: { stock: nuevoStock }
+    const producto = await prisma.producto.update({
+      where: { id },
+      data: { stock: req.body.stock }
     });
-
-    res.json({ success: true, data: productoActualizado });
+    res.json({ success: true, data: producto });
   } catch (error: any) {
     next(error);
   }
 };
 
-const deleteProducto: RequestHandler<ParamsWithId> = async (req, res, next) => {
+const deleteProducto: RequestHandler = async (req, res, next) => {
   try {
+    const id = parseInt(req.params.id);
+    if (isNaN(id)) {
+      res.status(400).json({ success: false, message: 'ID inválido' });
+      return;
+    }
     await prisma.producto.delete({
-      where: { id: parseInt(req.params.id) }
+      where: { id }
     });
     res.json({ success: true, message: 'Producto eliminado correctamente' });
   } catch (error: any) {
@@ -119,23 +138,83 @@ interface ProductoVentaInput {
 // Rutas de Ventas
 const createVenta: RequestHandler = async (req, res, next) => {
   try {
-    const venta = await prisma.venta.create({
-      data: {
-        ...req.body,
-        productos: {
-          create: req.body.productos.map((prod: ProductoVentaInput) => ({
-            productoId: prod.productoId,
-            cantidad: prod.cantidad
-          }))
-        }
-      },
-      include: {
-        productos: true
-      }
+    // Primero, verificar que el cliente existe
+    const cliente = await prisma.cliente.findUnique({
+      where: { documento: req.body.clienteDocumento }
     });
+
+    if (!cliente) {
+      res.status(400).json({ 
+        success: false, 
+        message: 'Cliente no encontrado' 
+      });
+      return;
+    }
+
+    // Obtener los productos y verificar stock
+    const productosPromises = req.body.productos.map(async (prod: ProductoVentaInput) => {
+      const producto = await prisma.producto.findUnique({
+        where: { id: prod.productoId }
+      });
+
+      if (!producto) {
+        throw new Error(`Producto con ID ${prod.productoId} no encontrado`);
+      }
+
+      if (producto.stock < prod.cantidad) {
+        throw new Error(`Stock insuficiente para el producto ${producto.nombre}`);
+      }
+
+      return {
+        ...prod,
+        precio: producto.precio,
+        producto
+      };
+    });
+
+    const productosConPrecios = await Promise.all(productosPromises);
+    const total = productosConPrecios.reduce((sum, prod) => sum + (prod.precio * prod.cantidad), 0);
+
+    // Crear la venta y actualizar stock en una transacción
+    const venta = await prisma.$transaction(async (prisma) => {
+      // Crear la venta
+      const nuevaVenta = await prisma.venta.create({
+        data: {
+          total,
+          metodoPago: req.body.metodoPago,
+          documento: req.body.clienteDocumento,
+          productos: {
+            create: productosConPrecios.map(prod => ({
+              productoId: prod.productoId,
+              cantidad: prod.cantidad,
+              precio: prod.precio
+            }))
+          }
+        },
+        include: {
+          productos: true,
+          cliente: true
+        }
+      });
+
+      // Actualizar stock de productos
+      for (const prod of productosConPrecios) {
+        await prisma.producto.update({
+          where: { id: prod.productoId },
+          data: { stock: { decrement: prod.cantidad } }
+        });
+      }
+
+      return nuevaVenta;
+    });
+
     res.json({ success: true, data: venta });
   } catch (error: any) {
-    next(error);
+    if (error.message && error.message.includes('no encontrado') || error.message.includes('insuficiente')) {
+      res.status(400).json({ success: false, message: error.message });
+    } else {
+      next(error);
+    }
   }
 };
 
@@ -143,7 +222,8 @@ const getAllVentas: RequestHandler = async (_req, res, next) => {
   try {
     const ventas = await prisma.venta.findMany({
       include: {
-        productos: true
+        productos: true,
+        cliente: true
       }
     });
     res.json({ success: true, data: ventas });
@@ -186,14 +266,18 @@ const getVentasReporte: RequestHandler = async (_req, res, next) => {
   }
 };
 
-const getVentaById: RequestHandler<ParamsWithId> = async (req, res, next) => {
+const getVentaById: RequestHandler = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
+    const id = parseInt(req.params.id);
+    if (isNaN(id)) {
+      res.status(400).json({ success: false, message: 'ID inválido' });
+      return;
+    }
     const venta = await prisma.venta.findUnique({
-      where: { 
-        id: parseInt(req.params.id)
-      },
+      where: { id },
       include: {
-        productos: true
+        productos: true,
+        cliente: true
       }
     });
     if (!venta) {
@@ -201,7 +285,7 @@ const getVentaById: RequestHandler<ParamsWithId> = async (req, res, next) => {
       return;
     }
     res.json({ success: true, data: venta });
-  } catch (error: any) {
+  } catch (error) {
     next(error);
   }
 };
@@ -217,7 +301,8 @@ const getVentasByFecha: RequestHandler<ParamsWithFecha> = async (req, res, next)
         }
       },
       include: {
-        productos: true
+        productos: true,
+        cliente: true
       }
     });
     res.json({ success: true, data: ventas });
@@ -242,6 +327,26 @@ interface ReporteVentas {
 // Rutas de Clientes
 const createCliente: RequestHandler = async (req, res, next) => {
   try {
+    // Verificar si ya existe un cliente con el mismo documento o email
+    const existingCliente = await prisma.cliente.findFirst({
+      where: {
+        OR: [
+          { documento: req.body.documento },
+          { email: req.body.email }
+        ]
+      }
+    });
+
+    if (existingCliente) {
+      const field = existingCliente.documento === req.body.documento ? 'documento' : 'email';
+      res.status(400).json({
+        success: false,
+        message: `Ya existe un cliente con ese ${field}`,
+        error: `El ${field} ya está registrado`
+      });
+      return;
+    }
+
     const cliente = await prisma.cliente.create({
       data: req.body
     });
@@ -262,8 +367,11 @@ const getAllClientes: RequestHandler = async (_req, res, next) => {
 
 const getClienteById: RequestHandler<ParamsWithId> = async (req, res, next) => {
   try {
+    const documento = req.params.id;
     const cliente = await prisma.cliente.findUnique({
-      where: { id: req.params.id }
+      where: {
+        documento
+      }
     });
     if (!cliente) {
       res.status(404).json({ success: false, message: 'Cliente no encontrado' });
@@ -275,7 +383,66 @@ const getClienteById: RequestHandler<ParamsWithId> = async (req, res, next) => {
   }
 };
 
-// Rutas de Productos
+// Credenciales hardcodeadas para admin
+const ADMIN_CREDENTIALS = {
+  username: 'admin',
+  password: '12345678'
+};
+
+// Middleware de autenticación
+const checkAuth: RequestHandler = (req, res, next): void => {
+  // No requerir autenticación para login
+  if (req.path === '/login') {
+    next();
+    return;
+  }
+
+  if (!isAuthenticated) {
+    res.status(401).json({
+      success: false,
+      message: 'No autorizado. Debe iniciar sesión primero.'
+    });
+    return;
+  }
+
+  next();
+};
+
+// Ruta de login simplificada
+router.post('/login', (req, res) => {
+  const { username, password } = req.body;
+
+  if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
+    isAuthenticated = true; // Establecer el estado de autenticación
+    res.json({
+      success: true,
+      data: {
+        username: 'admin',
+        role: 'ADMIN'
+      }
+    });
+  } else {
+    isAuthenticated = false; // Asegurarse de que el estado sea falso si las credenciales son incorrectas
+    res.status(401).json({
+      success: false,
+      message: 'Credenciales inválidas'
+    });
+  }
+});
+
+// Ruta para cerrar sesión
+router.post('/logout', (req, res) => {
+  isAuthenticated = false;
+  res.json({
+    success: true,
+    message: 'Sesión cerrada correctamente'
+  });
+});
+
+// Aplicar el middleware de autenticación a todas las rutas excepto login
+router.use(checkAuth);
+
+// Rutas sin autenticación
 router.post('/productos', createProducto);
 router.get('/productos', getAllProductos);
 router.get('/productos/:id', getProductoById);
@@ -283,14 +450,12 @@ router.put('/productos', updateProducto);
 router.patch('/productos/:id/stock', updateProductoStock);
 router.delete('/productos/:id', deleteProducto);
 
-// Rutas de Ventas
 router.post('/ventas', createVenta);
 router.get('/ventas', getAllVentas);
 router.get('/ventas/reporte', getVentasReporte);
 router.get('/ventas/:id', getVentaById);
 router.get('/ventas/fecha/:fecha', getVentasByFecha);
 
-// Rutas de Clientes
 router.post('/clientes', createCliente);
 router.get('/clientes', getAllClientes);
 router.get('/clientes/:id', getClienteById);
@@ -316,6 +481,7 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`Servidor backend corriendo en http://localhost:${PORT}`);
+// Iniciar el servidor
+app.listen(PORT, HOST, () => {
+  console.log(`Servidor corriendo en http://${HOST}:${PORT}`);
 }); 

@@ -1233,11 +1233,11 @@ export namespace Prisma {
    */
 
   export type ProductoCountOutputType = {
-    detallesVenta: number
+    ventas: number
   }
 
   export type ProductoCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    detallesVenta?: boolean | ProductoCountOutputTypeCountDetallesVentaArgs
+    ventas?: boolean | ProductoCountOutputTypeCountVentasArgs
   }
 
   // Custom InputTypes
@@ -1254,7 +1254,7 @@ export namespace Prisma {
   /**
    * ProductoCountOutputType without action
    */
-  export type ProductoCountOutputTypeCountDetallesVentaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ProductoCountOutputTypeCountVentasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: DetalleVentaWhereInput
   }
 
@@ -1295,11 +1295,11 @@ export namespace Prisma {
    */
 
   export type VentaCountOutputType = {
-    detalles: number
+    productos: number
   }
 
   export type VentaCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    detalles?: boolean | VentaCountOutputTypeCountDetallesArgs
+    productos?: boolean | VentaCountOutputTypeCountProductosArgs
   }
 
   // Custom InputTypes
@@ -1316,7 +1316,7 @@ export namespace Prisma {
   /**
    * VentaCountOutputType without action
    */
-  export type VentaCountOutputTypeCountDetallesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type VentaCountOutputTypeCountProductosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: DetalleVentaWhereInput
   }
 
@@ -2357,35 +2357,33 @@ export namespace Prisma {
   }
 
   export type ProductoAvgAggregateOutputType = {
+    id: number | null
     precio: number | null
     stock: number | null
-    stockMinimo: number | null
   }
 
   export type ProductoSumAggregateOutputType = {
+    id: number | null
     precio: number | null
     stock: number | null
-    stockMinimo: number | null
   }
 
   export type ProductoMinAggregateOutputType = {
-    id: string | null
+    id: number | null
     nombre: string | null
     descripcion: string | null
     precio: number | null
     stock: number | null
-    stockMinimo: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
   export type ProductoMaxAggregateOutputType = {
-    id: string | null
+    id: number | null
     nombre: string | null
     descripcion: string | null
     precio: number | null
     stock: number | null
-    stockMinimo: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -2396,7 +2394,6 @@ export namespace Prisma {
     descripcion: number
     precio: number
     stock: number
-    stockMinimo: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -2404,15 +2401,15 @@ export namespace Prisma {
 
 
   export type ProductoAvgAggregateInputType = {
+    id?: true
     precio?: true
     stock?: true
-    stockMinimo?: true
   }
 
   export type ProductoSumAggregateInputType = {
+    id?: true
     precio?: true
     stock?: true
-    stockMinimo?: true
   }
 
   export type ProductoMinAggregateInputType = {
@@ -2421,7 +2418,6 @@ export namespace Prisma {
     descripcion?: true
     precio?: true
     stock?: true
-    stockMinimo?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -2432,7 +2428,6 @@ export namespace Prisma {
     descripcion?: true
     precio?: true
     stock?: true
-    stockMinimo?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -2443,7 +2438,6 @@ export namespace Prisma {
     descripcion?: true
     precio?: true
     stock?: true
-    stockMinimo?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -2536,12 +2530,11 @@ export namespace Prisma {
   }
 
   export type ProductoGroupByOutputType = {
-    id: string
+    id: number
     nombre: string
-    descripcion: string
+    descripcion: string | null
     precio: number
     stock: number
-    stockMinimo: number
     createdAt: Date
     updatedAt: Date
     _count: ProductoCountAggregateOutputType | null
@@ -2571,10 +2564,9 @@ export namespace Prisma {
     descripcion?: boolean
     precio?: boolean
     stock?: boolean
-    stockMinimo?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    detallesVenta?: boolean | Producto$detallesVentaArgs<ExtArgs>
+    ventas?: boolean | Producto$ventasArgs<ExtArgs>
     _count?: boolean | ProductoCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["producto"]>
 
@@ -2584,7 +2576,6 @@ export namespace Prisma {
     descripcion?: boolean
     precio?: boolean
     stock?: boolean
-    stockMinimo?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["producto"]>
@@ -2595,7 +2586,6 @@ export namespace Prisma {
     descripcion?: boolean
     precio?: boolean
     stock?: boolean
-    stockMinimo?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["producto"]>
@@ -2606,14 +2596,13 @@ export namespace Prisma {
     descripcion?: boolean
     precio?: boolean
     stock?: boolean
-    stockMinimo?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ProductoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombre" | "descripcion" | "precio" | "stock" | "stockMinimo" | "createdAt" | "updatedAt", ExtArgs["result"]["producto"]>
+  export type ProductoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombre" | "descripcion" | "precio" | "stock" | "createdAt" | "updatedAt", ExtArgs["result"]["producto"]>
   export type ProductoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    detallesVenta?: boolean | Producto$detallesVentaArgs<ExtArgs>
+    ventas?: boolean | Producto$ventasArgs<ExtArgs>
     _count?: boolean | ProductoCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ProductoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2622,15 +2611,14 @@ export namespace Prisma {
   export type $ProductoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Producto"
     objects: {
-      detallesVenta: Prisma.$DetalleVentaPayload<ExtArgs>[]
+      ventas: Prisma.$DetalleVentaPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: string
+      id: number
       nombre: string
-      descripcion: string
+      descripcion: string | null
       precio: number
       stock: number
-      stockMinimo: number
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["producto"]>
@@ -3027,7 +3015,7 @@ export namespace Prisma {
    */
   export interface Prisma__ProductoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    detallesVenta<T extends Producto$detallesVentaArgs<ExtArgs> = {}>(args?: Subset<T, Producto$detallesVentaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DetalleVentaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    ventas<T extends Producto$ventasArgs<ExtArgs> = {}>(args?: Subset<T, Producto$ventasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DetalleVentaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3057,12 +3045,11 @@ export namespace Prisma {
    * Fields of the Producto model
    */
   interface ProductoFieldRefs {
-    readonly id: FieldRef<"Producto", 'String'>
+    readonly id: FieldRef<"Producto", 'Int'>
     readonly nombre: FieldRef<"Producto", 'String'>
     readonly descripcion: FieldRef<"Producto", 'String'>
     readonly precio: FieldRef<"Producto", 'Float'>
     readonly stock: FieldRef<"Producto", 'Int'>
-    readonly stockMinimo: FieldRef<"Producto", 'Int'>
     readonly createdAt: FieldRef<"Producto", 'DateTime'>
     readonly updatedAt: FieldRef<"Producto", 'DateTime'>
   }
@@ -3451,9 +3438,9 @@ export namespace Prisma {
   }
 
   /**
-   * Producto.detallesVenta
+   * Producto.ventas
    */
-  export type Producto$detallesVentaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Producto$ventasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the DetalleVenta
      */
@@ -3499,12 +3486,22 @@ export namespace Prisma {
 
   export type AggregateCliente = {
     _count: ClienteCountAggregateOutputType | null
+    _avg: ClienteAvgAggregateOutputType | null
+    _sum: ClienteSumAggregateOutputType | null
     _min: ClienteMinAggregateOutputType | null
     _max: ClienteMaxAggregateOutputType | null
   }
 
+  export type ClienteAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type ClienteSumAggregateOutputType = {
+    id: number | null
+  }
+
   export type ClienteMinAggregateOutputType = {
-    id: string | null
+    id: number | null
     nombre: string | null
     documento: string | null
     telefono: string | null
@@ -3515,7 +3512,7 @@ export namespace Prisma {
   }
 
   export type ClienteMaxAggregateOutputType = {
-    id: string | null
+    id: number | null
     nombre: string | null
     documento: string | null
     telefono: string | null
@@ -3537,6 +3534,14 @@ export namespace Prisma {
     _all: number
   }
 
+
+  export type ClienteAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type ClienteSumAggregateInputType = {
+    id?: true
+  }
 
   export type ClienteMinAggregateInputType = {
     id?: true
@@ -3610,6 +3615,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: ClienteAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ClienteSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: ClienteMinAggregateInputType
@@ -3640,12 +3657,14 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: ClienteCountAggregateInputType | true
+    _avg?: ClienteAvgAggregateInputType
+    _sum?: ClienteSumAggregateInputType
     _min?: ClienteMinAggregateInputType
     _max?: ClienteMaxAggregateInputType
   }
 
   export type ClienteGroupByOutputType = {
-    id: string
+    id: number
     nombre: string
     documento: string
     telefono: string | null
@@ -3654,6 +3673,8 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date
     _count: ClienteCountAggregateOutputType | null
+    _avg: ClienteAvgAggregateOutputType | null
+    _sum: ClienteSumAggregateOutputType | null
     _min: ClienteMinAggregateOutputType | null
     _max: ClienteMaxAggregateOutputType | null
   }
@@ -3732,7 +3753,7 @@ export namespace Prisma {
       ventas: Prisma.$VentaPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: string
+      id: number
       nombre: string
       documento: string
       telefono: string | null
@@ -4164,7 +4185,7 @@ export namespace Prisma {
    * Fields of the Cliente model
    */
   interface ClienteFieldRefs {
-    readonly id: FieldRef<"Cliente", 'String'>
+    readonly id: FieldRef<"Cliente", 'Int'>
     readonly nombre: FieldRef<"Cliente", 'String'>
     readonly documento: FieldRef<"Cliente", 'String'>
     readonly telefono: FieldRef<"Cliente", 'String'>
@@ -4613,36 +4634,41 @@ export namespace Prisma {
   }
 
   export type VentaAvgAggregateOutputType = {
+    id: number | null
     total: number | null
   }
 
   export type VentaSumAggregateOutputType = {
+    id: number | null
     total: number | null
   }
 
   export type VentaMinAggregateOutputType = {
-    id: string | null
-    fecha: Date | null
+    id: number | null
     total: number | null
-    clienteId: string | null
+    metodoPago: string | null
+    documento: string | null
+    fecha: Date | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
   export type VentaMaxAggregateOutputType = {
-    id: string | null
-    fecha: Date | null
+    id: number | null
     total: number | null
-    clienteId: string | null
+    metodoPago: string | null
+    documento: string | null
+    fecha: Date | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
   export type VentaCountAggregateOutputType = {
     id: number
-    fecha: number
     total: number
-    clienteId: number
+    metodoPago: number
+    documento: number
+    fecha: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -4650,36 +4676,41 @@ export namespace Prisma {
 
 
   export type VentaAvgAggregateInputType = {
+    id?: true
     total?: true
   }
 
   export type VentaSumAggregateInputType = {
+    id?: true
     total?: true
   }
 
   export type VentaMinAggregateInputType = {
     id?: true
-    fecha?: true
     total?: true
-    clienteId?: true
+    metodoPago?: true
+    documento?: true
+    fecha?: true
     createdAt?: true
     updatedAt?: true
   }
 
   export type VentaMaxAggregateInputType = {
     id?: true
-    fecha?: true
     total?: true
-    clienteId?: true
+    metodoPago?: true
+    documento?: true
+    fecha?: true
     createdAt?: true
     updatedAt?: true
   }
 
   export type VentaCountAggregateInputType = {
     id?: true
-    fecha?: true
     total?: true
-    clienteId?: true
+    metodoPago?: true
+    documento?: true
+    fecha?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -4772,10 +4803,11 @@ export namespace Prisma {
   }
 
   export type VentaGroupByOutputType = {
-    id: string
-    fecha: Date
+    id: number
     total: number
-    clienteId: string
+    metodoPago: string
+    documento: string
+    fecha: Date
     createdAt: Date
     updatedAt: Date
     _count: VentaCountAggregateOutputType | null
@@ -4801,21 +4833,23 @@ export namespace Prisma {
 
   export type VentaSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    fecha?: boolean
     total?: boolean
-    clienteId?: boolean
+    metodoPago?: boolean
+    documento?: boolean
+    fecha?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     cliente?: boolean | ClienteDefaultArgs<ExtArgs>
-    detalles?: boolean | Venta$detallesArgs<ExtArgs>
+    productos?: boolean | Venta$productosArgs<ExtArgs>
     _count?: boolean | VentaCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["venta"]>
 
   export type VentaSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    fecha?: boolean
     total?: boolean
-    clienteId?: boolean
+    metodoPago?: boolean
+    documento?: boolean
+    fecha?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     cliente?: boolean | ClienteDefaultArgs<ExtArgs>
@@ -4823,9 +4857,10 @@ export namespace Prisma {
 
   export type VentaSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    fecha?: boolean
     total?: boolean
-    clienteId?: boolean
+    metodoPago?: boolean
+    documento?: boolean
+    fecha?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     cliente?: boolean | ClienteDefaultArgs<ExtArgs>
@@ -4833,17 +4868,18 @@ export namespace Prisma {
 
   export type VentaSelectScalar = {
     id?: boolean
-    fecha?: boolean
     total?: boolean
-    clienteId?: boolean
+    metodoPago?: boolean
+    documento?: boolean
+    fecha?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type VentaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "fecha" | "total" | "clienteId" | "createdAt" | "updatedAt", ExtArgs["result"]["venta"]>
+  export type VentaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "total" | "metodoPago" | "documento" | "fecha" | "createdAt" | "updatedAt", ExtArgs["result"]["venta"]>
   export type VentaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     cliente?: boolean | ClienteDefaultArgs<ExtArgs>
-    detalles?: boolean | Venta$detallesArgs<ExtArgs>
+    productos?: boolean | Venta$productosArgs<ExtArgs>
     _count?: boolean | VentaCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type VentaIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4857,13 +4893,14 @@ export namespace Prisma {
     name: "Venta"
     objects: {
       cliente: Prisma.$ClientePayload<ExtArgs>
-      detalles: Prisma.$DetalleVentaPayload<ExtArgs>[]
+      productos: Prisma.$DetalleVentaPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: string
-      fecha: Date
+      id: number
       total: number
-      clienteId: string
+      metodoPago: string
+      documento: string
+      fecha: Date
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["venta"]>
@@ -5261,7 +5298,7 @@ export namespace Prisma {
   export interface Prisma__VentaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     cliente<T extends ClienteDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ClienteDefaultArgs<ExtArgs>>): Prisma__ClienteClient<$Result.GetResult<Prisma.$ClientePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    detalles<T extends Venta$detallesArgs<ExtArgs> = {}>(args?: Subset<T, Venta$detallesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DetalleVentaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    productos<T extends Venta$productosArgs<ExtArgs> = {}>(args?: Subset<T, Venta$productosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DetalleVentaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5291,10 +5328,11 @@ export namespace Prisma {
    * Fields of the Venta model
    */
   interface VentaFieldRefs {
-    readonly id: FieldRef<"Venta", 'String'>
-    readonly fecha: FieldRef<"Venta", 'DateTime'>
+    readonly id: FieldRef<"Venta", 'Int'>
     readonly total: FieldRef<"Venta", 'Float'>
-    readonly clienteId: FieldRef<"Venta", 'String'>
+    readonly metodoPago: FieldRef<"Venta", 'String'>
+    readonly documento: FieldRef<"Venta", 'String'>
+    readonly fecha: FieldRef<"Venta", 'DateTime'>
     readonly createdAt: FieldRef<"Venta", 'DateTime'>
     readonly updatedAt: FieldRef<"Venta", 'DateTime'>
   }
@@ -5691,9 +5729,9 @@ export namespace Prisma {
   }
 
   /**
-   * Venta.detalles
+   * Venta.productos
    */
-  export type Venta$detallesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Venta$productosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the DetalleVenta
      */
@@ -5746,46 +5784,47 @@ export namespace Prisma {
   }
 
   export type DetalleVentaAvgAggregateOutputType = {
+    id: number | null
+    ventaId: number | null
+    productoId: number | null
     cantidad: number | null
-    precioUnitario: number | null
-    subtotal: number | null
+    precio: number | null
   }
 
   export type DetalleVentaSumAggregateOutputType = {
+    id: number | null
+    ventaId: number | null
+    productoId: number | null
     cantidad: number | null
-    precioUnitario: number | null
-    subtotal: number | null
+    precio: number | null
   }
 
   export type DetalleVentaMinAggregateOutputType = {
-    id: string | null
+    id: number | null
+    ventaId: number | null
+    productoId: number | null
     cantidad: number | null
-    precioUnitario: number | null
-    subtotal: number | null
-    ventaId: string | null
-    productoId: string | null
+    precio: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
   export type DetalleVentaMaxAggregateOutputType = {
-    id: string | null
+    id: number | null
+    ventaId: number | null
+    productoId: number | null
     cantidad: number | null
-    precioUnitario: number | null
-    subtotal: number | null
-    ventaId: string | null
-    productoId: string | null
+    precio: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
   export type DetalleVentaCountAggregateOutputType = {
     id: number
-    cantidad: number
-    precioUnitario: number
-    subtotal: number
     ventaId: number
     productoId: number
+    cantidad: number
+    precio: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -5793,46 +5832,47 @@ export namespace Prisma {
 
 
   export type DetalleVentaAvgAggregateInputType = {
+    id?: true
+    ventaId?: true
+    productoId?: true
     cantidad?: true
-    precioUnitario?: true
-    subtotal?: true
+    precio?: true
   }
 
   export type DetalleVentaSumAggregateInputType = {
+    id?: true
+    ventaId?: true
+    productoId?: true
     cantidad?: true
-    precioUnitario?: true
-    subtotal?: true
+    precio?: true
   }
 
   export type DetalleVentaMinAggregateInputType = {
     id?: true
-    cantidad?: true
-    precioUnitario?: true
-    subtotal?: true
     ventaId?: true
     productoId?: true
+    cantidad?: true
+    precio?: true
     createdAt?: true
     updatedAt?: true
   }
 
   export type DetalleVentaMaxAggregateInputType = {
     id?: true
-    cantidad?: true
-    precioUnitario?: true
-    subtotal?: true
     ventaId?: true
     productoId?: true
+    cantidad?: true
+    precio?: true
     createdAt?: true
     updatedAt?: true
   }
 
   export type DetalleVentaCountAggregateInputType = {
     id?: true
-    cantidad?: true
-    precioUnitario?: true
-    subtotal?: true
     ventaId?: true
     productoId?: true
+    cantidad?: true
+    precio?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -5925,12 +5965,11 @@ export namespace Prisma {
   }
 
   export type DetalleVentaGroupByOutputType = {
-    id: string
+    id: number
+    ventaId: number
+    productoId: number
     cantidad: number
-    precioUnitario: number
-    subtotal: number
-    ventaId: string
-    productoId: string
+    precio: number
     createdAt: Date
     updatedAt: Date
     _count: DetalleVentaCountAggregateOutputType | null
@@ -5956,11 +5995,10 @@ export namespace Prisma {
 
   export type DetalleVentaSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    cantidad?: boolean
-    precioUnitario?: boolean
-    subtotal?: boolean
     ventaId?: boolean
     productoId?: boolean
+    cantidad?: boolean
+    precio?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     venta?: boolean | VentaDefaultArgs<ExtArgs>
@@ -5969,11 +6007,10 @@ export namespace Prisma {
 
   export type DetalleVentaSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    cantidad?: boolean
-    precioUnitario?: boolean
-    subtotal?: boolean
     ventaId?: boolean
     productoId?: boolean
+    cantidad?: boolean
+    precio?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     venta?: boolean | VentaDefaultArgs<ExtArgs>
@@ -5982,11 +6019,10 @@ export namespace Prisma {
 
   export type DetalleVentaSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    cantidad?: boolean
-    precioUnitario?: boolean
-    subtotal?: boolean
     ventaId?: boolean
     productoId?: boolean
+    cantidad?: boolean
+    precio?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     venta?: boolean | VentaDefaultArgs<ExtArgs>
@@ -5995,16 +6031,15 @@ export namespace Prisma {
 
   export type DetalleVentaSelectScalar = {
     id?: boolean
-    cantidad?: boolean
-    precioUnitario?: boolean
-    subtotal?: boolean
     ventaId?: boolean
     productoId?: boolean
+    cantidad?: boolean
+    precio?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type DetalleVentaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "cantidad" | "precioUnitario" | "subtotal" | "ventaId" | "productoId" | "createdAt" | "updatedAt", ExtArgs["result"]["detalleVenta"]>
+  export type DetalleVentaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "ventaId" | "productoId" | "cantidad" | "precio" | "createdAt" | "updatedAt", ExtArgs["result"]["detalleVenta"]>
   export type DetalleVentaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     venta?: boolean | VentaDefaultArgs<ExtArgs>
     producto?: boolean | ProductoDefaultArgs<ExtArgs>
@@ -6025,12 +6060,11 @@ export namespace Prisma {
       producto: Prisma.$ProductoPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: string
+      id: number
+      ventaId: number
+      productoId: number
       cantidad: number
-      precioUnitario: number
-      subtotal: number
-      ventaId: string
-      productoId: string
+      precio: number
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["detalleVenta"]>
@@ -6458,12 +6492,11 @@ export namespace Prisma {
    * Fields of the DetalleVenta model
    */
   interface DetalleVentaFieldRefs {
-    readonly id: FieldRef<"DetalleVenta", 'String'>
+    readonly id: FieldRef<"DetalleVenta", 'Int'>
+    readonly ventaId: FieldRef<"DetalleVenta", 'Int'>
+    readonly productoId: FieldRef<"DetalleVenta", 'Int'>
     readonly cantidad: FieldRef<"DetalleVenta", 'Int'>
-    readonly precioUnitario: FieldRef<"DetalleVenta", 'Float'>
-    readonly subtotal: FieldRef<"DetalleVenta", 'Float'>
-    readonly ventaId: FieldRef<"DetalleVenta", 'String'>
-    readonly productoId: FieldRef<"DetalleVenta", 'String'>
+    readonly precio: FieldRef<"DetalleVenta", 'Float'>
     readonly createdAt: FieldRef<"DetalleVenta", 'DateTime'>
     readonly updatedAt: FieldRef<"DetalleVenta", 'DateTime'>
   }
@@ -6908,7 +6941,6 @@ export namespace Prisma {
     descripcion: 'descripcion',
     precio: 'precio',
     stock: 'stock',
-    stockMinimo: 'stockMinimo',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -6932,9 +6964,10 @@ export namespace Prisma {
 
   export const VentaScalarFieldEnum: {
     id: 'id',
-    fecha: 'fecha',
     total: 'total',
-    clienteId: 'clienteId',
+    metodoPago: 'metodoPago',
+    documento: 'documento',
+    fecha: 'fecha',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -6944,11 +6977,10 @@ export namespace Prisma {
 
   export const DetalleVentaScalarFieldEnum: {
     id: 'id',
-    cantidad: 'cantidad',
-    precioUnitario: 'precioUnitario',
-    subtotal: 'subtotal',
     ventaId: 'ventaId',
     productoId: 'productoId',
+    cantidad: 'cantidad',
+    precio: 'precio',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -6992,16 +7024,16 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Float'
+   * Reference to a field of type 'Int'
    */
-  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
     
 
 
   /**
-   * Reference to a field of type 'Int'
+   * Reference to a field of type 'Float'
    */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
     
   /**
    * Deep Input Types
@@ -7074,51 +7106,47 @@ export namespace Prisma {
     AND?: ProductoWhereInput | ProductoWhereInput[]
     OR?: ProductoWhereInput[]
     NOT?: ProductoWhereInput | ProductoWhereInput[]
-    id?: StringFilter<"Producto"> | string
+    id?: IntFilter<"Producto"> | number
     nombre?: StringFilter<"Producto"> | string
-    descripcion?: StringFilter<"Producto"> | string
+    descripcion?: StringNullableFilter<"Producto"> | string | null
     precio?: FloatFilter<"Producto"> | number
     stock?: IntFilter<"Producto"> | number
-    stockMinimo?: IntFilter<"Producto"> | number
     createdAt?: DateTimeFilter<"Producto"> | Date | string
     updatedAt?: DateTimeFilter<"Producto"> | Date | string
-    detallesVenta?: DetalleVentaListRelationFilter
+    ventas?: DetalleVentaListRelationFilter
   }
 
   export type ProductoOrderByWithRelationInput = {
     id?: SortOrder
     nombre?: SortOrder
-    descripcion?: SortOrder
+    descripcion?: SortOrderInput | SortOrder
     precio?: SortOrder
     stock?: SortOrder
-    stockMinimo?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    detallesVenta?: DetalleVentaOrderByRelationAggregateInput
+    ventas?: DetalleVentaOrderByRelationAggregateInput
   }
 
   export type ProductoWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
+    id?: number
     AND?: ProductoWhereInput | ProductoWhereInput[]
     OR?: ProductoWhereInput[]
     NOT?: ProductoWhereInput | ProductoWhereInput[]
     nombre?: StringFilter<"Producto"> | string
-    descripcion?: StringFilter<"Producto"> | string
+    descripcion?: StringNullableFilter<"Producto"> | string | null
     precio?: FloatFilter<"Producto"> | number
     stock?: IntFilter<"Producto"> | number
-    stockMinimo?: IntFilter<"Producto"> | number
     createdAt?: DateTimeFilter<"Producto"> | Date | string
     updatedAt?: DateTimeFilter<"Producto"> | Date | string
-    detallesVenta?: DetalleVentaListRelationFilter
+    ventas?: DetalleVentaListRelationFilter
   }, "id">
 
   export type ProductoOrderByWithAggregationInput = {
     id?: SortOrder
     nombre?: SortOrder
-    descripcion?: SortOrder
+    descripcion?: SortOrderInput | SortOrder
     precio?: SortOrder
     stock?: SortOrder
-    stockMinimo?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: ProductoCountOrderByAggregateInput
@@ -7132,12 +7160,11 @@ export namespace Prisma {
     AND?: ProductoScalarWhereWithAggregatesInput | ProductoScalarWhereWithAggregatesInput[]
     OR?: ProductoScalarWhereWithAggregatesInput[]
     NOT?: ProductoScalarWhereWithAggregatesInput | ProductoScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"Producto"> | string
+    id?: IntWithAggregatesFilter<"Producto"> | number
     nombre?: StringWithAggregatesFilter<"Producto"> | string
-    descripcion?: StringWithAggregatesFilter<"Producto"> | string
+    descripcion?: StringNullableWithAggregatesFilter<"Producto"> | string | null
     precio?: FloatWithAggregatesFilter<"Producto"> | number
     stock?: IntWithAggregatesFilter<"Producto"> | number
-    stockMinimo?: IntWithAggregatesFilter<"Producto"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Producto"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Producto"> | Date | string
   }
@@ -7146,7 +7173,7 @@ export namespace Prisma {
     AND?: ClienteWhereInput | ClienteWhereInput[]
     OR?: ClienteWhereInput[]
     NOT?: ClienteWhereInput | ClienteWhereInput[]
-    id?: StringFilter<"Cliente"> | string
+    id?: IntFilter<"Cliente"> | number
     nombre?: StringFilter<"Cliente"> | string
     documento?: StringFilter<"Cliente"> | string
     telefono?: StringNullableFilter<"Cliente"> | string | null
@@ -7170,7 +7197,7 @@ export namespace Prisma {
   }
 
   export type ClienteWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
+    id?: number
     documento?: string
     email?: string
     AND?: ClienteWhereInput | ClienteWhereInput[]
@@ -7194,15 +7221,17 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: ClienteCountOrderByAggregateInput
+    _avg?: ClienteAvgOrderByAggregateInput
     _max?: ClienteMaxOrderByAggregateInput
     _min?: ClienteMinOrderByAggregateInput
+    _sum?: ClienteSumOrderByAggregateInput
   }
 
   export type ClienteScalarWhereWithAggregatesInput = {
     AND?: ClienteScalarWhereWithAggregatesInput | ClienteScalarWhereWithAggregatesInput[]
     OR?: ClienteScalarWhereWithAggregatesInput[]
     NOT?: ClienteScalarWhereWithAggregatesInput | ClienteScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"Cliente"> | string
+    id?: IntWithAggregatesFilter<"Cliente"> | number
     nombre?: StringWithAggregatesFilter<"Cliente"> | string
     documento?: StringWithAggregatesFilter<"Cliente"> | string
     telefono?: StringNullableWithAggregatesFilter<"Cliente"> | string | null
@@ -7216,46 +7245,50 @@ export namespace Prisma {
     AND?: VentaWhereInput | VentaWhereInput[]
     OR?: VentaWhereInput[]
     NOT?: VentaWhereInput | VentaWhereInput[]
-    id?: StringFilter<"Venta"> | string
-    fecha?: DateTimeFilter<"Venta"> | Date | string
+    id?: IntFilter<"Venta"> | number
     total?: FloatFilter<"Venta"> | number
-    clienteId?: StringFilter<"Venta"> | string
+    metodoPago?: StringFilter<"Venta"> | string
+    documento?: StringFilter<"Venta"> | string
+    fecha?: DateTimeFilter<"Venta"> | Date | string
     createdAt?: DateTimeFilter<"Venta"> | Date | string
     updatedAt?: DateTimeFilter<"Venta"> | Date | string
     cliente?: XOR<ClienteScalarRelationFilter, ClienteWhereInput>
-    detalles?: DetalleVentaListRelationFilter
+    productos?: DetalleVentaListRelationFilter
   }
 
   export type VentaOrderByWithRelationInput = {
     id?: SortOrder
-    fecha?: SortOrder
     total?: SortOrder
-    clienteId?: SortOrder
+    metodoPago?: SortOrder
+    documento?: SortOrder
+    fecha?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     cliente?: ClienteOrderByWithRelationInput
-    detalles?: DetalleVentaOrderByRelationAggregateInput
+    productos?: DetalleVentaOrderByRelationAggregateInput
   }
 
   export type VentaWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
+    id?: number
     AND?: VentaWhereInput | VentaWhereInput[]
     OR?: VentaWhereInput[]
     NOT?: VentaWhereInput | VentaWhereInput[]
-    fecha?: DateTimeFilter<"Venta"> | Date | string
     total?: FloatFilter<"Venta"> | number
-    clienteId?: StringFilter<"Venta"> | string
+    metodoPago?: StringFilter<"Venta"> | string
+    documento?: StringFilter<"Venta"> | string
+    fecha?: DateTimeFilter<"Venta"> | Date | string
     createdAt?: DateTimeFilter<"Venta"> | Date | string
     updatedAt?: DateTimeFilter<"Venta"> | Date | string
     cliente?: XOR<ClienteScalarRelationFilter, ClienteWhereInput>
-    detalles?: DetalleVentaListRelationFilter
+    productos?: DetalleVentaListRelationFilter
   }, "id">
 
   export type VentaOrderByWithAggregationInput = {
     id?: SortOrder
-    fecha?: SortOrder
     total?: SortOrder
-    clienteId?: SortOrder
+    metodoPago?: SortOrder
+    documento?: SortOrder
+    fecha?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: VentaCountOrderByAggregateInput
@@ -7269,10 +7302,11 @@ export namespace Prisma {
     AND?: VentaScalarWhereWithAggregatesInput | VentaScalarWhereWithAggregatesInput[]
     OR?: VentaScalarWhereWithAggregatesInput[]
     NOT?: VentaScalarWhereWithAggregatesInput | VentaScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"Venta"> | string
-    fecha?: DateTimeWithAggregatesFilter<"Venta"> | Date | string
+    id?: IntWithAggregatesFilter<"Venta"> | number
     total?: FloatWithAggregatesFilter<"Venta"> | number
-    clienteId?: StringWithAggregatesFilter<"Venta"> | string
+    metodoPago?: StringWithAggregatesFilter<"Venta"> | string
+    documento?: StringWithAggregatesFilter<"Venta"> | string
+    fecha?: DateTimeWithAggregatesFilter<"Venta"> | Date | string
     createdAt?: DateTimeWithAggregatesFilter<"Venta"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Venta"> | Date | string
   }
@@ -7281,12 +7315,11 @@ export namespace Prisma {
     AND?: DetalleVentaWhereInput | DetalleVentaWhereInput[]
     OR?: DetalleVentaWhereInput[]
     NOT?: DetalleVentaWhereInput | DetalleVentaWhereInput[]
-    id?: StringFilter<"DetalleVenta"> | string
+    id?: IntFilter<"DetalleVenta"> | number
+    ventaId?: IntFilter<"DetalleVenta"> | number
+    productoId?: IntFilter<"DetalleVenta"> | number
     cantidad?: IntFilter<"DetalleVenta"> | number
-    precioUnitario?: FloatFilter<"DetalleVenta"> | number
-    subtotal?: FloatFilter<"DetalleVenta"> | number
-    ventaId?: StringFilter<"DetalleVenta"> | string
-    productoId?: StringFilter<"DetalleVenta"> | string
+    precio?: FloatFilter<"DetalleVenta"> | number
     createdAt?: DateTimeFilter<"DetalleVenta"> | Date | string
     updatedAt?: DateTimeFilter<"DetalleVenta"> | Date | string
     venta?: XOR<VentaScalarRelationFilter, VentaWhereInput>
@@ -7295,11 +7328,10 @@ export namespace Prisma {
 
   export type DetalleVentaOrderByWithRelationInput = {
     id?: SortOrder
-    cantidad?: SortOrder
-    precioUnitario?: SortOrder
-    subtotal?: SortOrder
     ventaId?: SortOrder
     productoId?: SortOrder
+    cantidad?: SortOrder
+    precio?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     venta?: VentaOrderByWithRelationInput
@@ -7307,15 +7339,14 @@ export namespace Prisma {
   }
 
   export type DetalleVentaWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
+    id?: number
     AND?: DetalleVentaWhereInput | DetalleVentaWhereInput[]
     OR?: DetalleVentaWhereInput[]
     NOT?: DetalleVentaWhereInput | DetalleVentaWhereInput[]
+    ventaId?: IntFilter<"DetalleVenta"> | number
+    productoId?: IntFilter<"DetalleVenta"> | number
     cantidad?: IntFilter<"DetalleVenta"> | number
-    precioUnitario?: FloatFilter<"DetalleVenta"> | number
-    subtotal?: FloatFilter<"DetalleVenta"> | number
-    ventaId?: StringFilter<"DetalleVenta"> | string
-    productoId?: StringFilter<"DetalleVenta"> | string
+    precio?: FloatFilter<"DetalleVenta"> | number
     createdAt?: DateTimeFilter<"DetalleVenta"> | Date | string
     updatedAt?: DateTimeFilter<"DetalleVenta"> | Date | string
     venta?: XOR<VentaScalarRelationFilter, VentaWhereInput>
@@ -7324,11 +7355,10 @@ export namespace Prisma {
 
   export type DetalleVentaOrderByWithAggregationInput = {
     id?: SortOrder
-    cantidad?: SortOrder
-    precioUnitario?: SortOrder
-    subtotal?: SortOrder
     ventaId?: SortOrder
     productoId?: SortOrder
+    cantidad?: SortOrder
+    precio?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: DetalleVentaCountOrderByAggregateInput
@@ -7342,12 +7372,11 @@ export namespace Prisma {
     AND?: DetalleVentaScalarWhereWithAggregatesInput | DetalleVentaScalarWhereWithAggregatesInput[]
     OR?: DetalleVentaScalarWhereWithAggregatesInput[]
     NOT?: DetalleVentaScalarWhereWithAggregatesInput | DetalleVentaScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"DetalleVenta"> | string
+    id?: IntWithAggregatesFilter<"DetalleVenta"> | number
+    ventaId?: IntWithAggregatesFilter<"DetalleVenta"> | number
+    productoId?: IntWithAggregatesFilter<"DetalleVenta"> | number
     cantidad?: IntWithAggregatesFilter<"DetalleVenta"> | number
-    precioUnitario?: FloatWithAggregatesFilter<"DetalleVenta"> | number
-    subtotal?: FloatWithAggregatesFilter<"DetalleVenta"> | number
-    ventaId?: StringWithAggregatesFilter<"DetalleVenta"> | string
-    productoId?: StringWithAggregatesFilter<"DetalleVenta"> | string
+    precio?: FloatWithAggregatesFilter<"DetalleVenta"> | number
     createdAt?: DateTimeWithAggregatesFilter<"DetalleVenta"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"DetalleVenta"> | Date | string
   }
@@ -7423,88 +7452,77 @@ export namespace Prisma {
   }
 
   export type ProductoCreateInput = {
-    id?: string
     nombre: string
-    descripcion: string
+    descripcion?: string | null
     precio: number
-    stock: number
-    stockMinimo?: number
+    stock?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    detallesVenta?: DetalleVentaCreateNestedManyWithoutProductoInput
+    ventas?: DetalleVentaCreateNestedManyWithoutProductoInput
   }
 
   export type ProductoUncheckedCreateInput = {
-    id?: string
+    id?: number
     nombre: string
-    descripcion: string
+    descripcion?: string | null
     precio: number
-    stock: number
-    stockMinimo?: number
+    stock?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    detallesVenta?: DetalleVentaUncheckedCreateNestedManyWithoutProductoInput
+    ventas?: DetalleVentaUncheckedCreateNestedManyWithoutProductoInput
   }
 
   export type ProductoUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     nombre?: StringFieldUpdateOperationsInput | string
-    descripcion?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
     precio?: FloatFieldUpdateOperationsInput | number
     stock?: IntFieldUpdateOperationsInput | number
-    stockMinimo?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    detallesVenta?: DetalleVentaUpdateManyWithoutProductoNestedInput
+    ventas?: DetalleVentaUpdateManyWithoutProductoNestedInput
   }
 
   export type ProductoUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
     nombre?: StringFieldUpdateOperationsInput | string
-    descripcion?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
     precio?: FloatFieldUpdateOperationsInput | number
     stock?: IntFieldUpdateOperationsInput | number
-    stockMinimo?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    detallesVenta?: DetalleVentaUncheckedUpdateManyWithoutProductoNestedInput
+    ventas?: DetalleVentaUncheckedUpdateManyWithoutProductoNestedInput
   }
 
   export type ProductoCreateManyInput = {
-    id?: string
+    id?: number
     nombre: string
-    descripcion: string
+    descripcion?: string | null
     precio: number
-    stock: number
-    stockMinimo?: number
+    stock?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type ProductoUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
     nombre?: StringFieldUpdateOperationsInput | string
-    descripcion?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
     precio?: FloatFieldUpdateOperationsInput | number
     stock?: IntFieldUpdateOperationsInput | number
-    stockMinimo?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ProductoUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
     nombre?: StringFieldUpdateOperationsInput | string
-    descripcion?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
     precio?: FloatFieldUpdateOperationsInput | number
     stock?: IntFieldUpdateOperationsInput | number
-    stockMinimo?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ClienteCreateInput = {
-    id?: string
     nombre: string
     documento: string
     telefono?: string | null
@@ -7516,7 +7534,7 @@ export namespace Prisma {
   }
 
   export type ClienteUncheckedCreateInput = {
-    id?: string
+    id?: number
     nombre: string
     documento: string
     telefono?: string | null
@@ -7528,7 +7546,6 @@ export namespace Prisma {
   }
 
   export type ClienteUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     nombre?: StringFieldUpdateOperationsInput | string
     documento?: StringFieldUpdateOperationsInput | string
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
@@ -7540,7 +7557,7 @@ export namespace Prisma {
   }
 
   export type ClienteUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
     nombre?: StringFieldUpdateOperationsInput | string
     documento?: StringFieldUpdateOperationsInput | string
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
@@ -7552,7 +7569,7 @@ export namespace Prisma {
   }
 
   export type ClienteCreateManyInput = {
-    id?: string
+    id?: number
     nombre: string
     documento: string
     telefono?: string | null
@@ -7563,7 +7580,6 @@ export namespace Prisma {
   }
 
   export type ClienteUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
     nombre?: StringFieldUpdateOperationsInput | string
     documento?: StringFieldUpdateOperationsInput | string
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
@@ -7574,7 +7590,7 @@ export namespace Prisma {
   }
 
   export type ClienteUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
     nombre?: StringFieldUpdateOperationsInput | string
     documento?: StringFieldUpdateOperationsInput | string
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
@@ -7585,142 +7601,136 @@ export namespace Prisma {
   }
 
   export type VentaCreateInput = {
-    id?: string
-    fecha?: Date | string
     total: number
+    metodoPago: string
+    fecha?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
     cliente: ClienteCreateNestedOneWithoutVentasInput
-    detalles?: DetalleVentaCreateNestedManyWithoutVentaInput
+    productos?: DetalleVentaCreateNestedManyWithoutVentaInput
   }
 
   export type VentaUncheckedCreateInput = {
-    id?: string
-    fecha?: Date | string
+    id?: number
     total: number
-    clienteId: string
+    metodoPago: string
+    documento: string
+    fecha?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
-    detalles?: DetalleVentaUncheckedCreateNestedManyWithoutVentaInput
+    productos?: DetalleVentaUncheckedCreateNestedManyWithoutVentaInput
   }
 
   export type VentaUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     total?: FloatFieldUpdateOperationsInput | number
+    metodoPago?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     cliente?: ClienteUpdateOneRequiredWithoutVentasNestedInput
-    detalles?: DetalleVentaUpdateManyWithoutVentaNestedInput
+    productos?: DetalleVentaUpdateManyWithoutVentaNestedInput
   }
 
   export type VentaUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    id?: IntFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
-    clienteId?: StringFieldUpdateOperationsInput | string
+    metodoPago?: StringFieldUpdateOperationsInput | string
+    documento?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    detalles?: DetalleVentaUncheckedUpdateManyWithoutVentaNestedInput
+    productos?: DetalleVentaUncheckedUpdateManyWithoutVentaNestedInput
   }
 
   export type VentaCreateManyInput = {
-    id?: string
-    fecha?: Date | string
+    id?: number
     total: number
-    clienteId: string
+    metodoPago: string
+    documento: string
+    fecha?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type VentaUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     total?: FloatFieldUpdateOperationsInput | number
+    metodoPago?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type VentaUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    id?: IntFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
-    clienteId?: StringFieldUpdateOperationsInput | string
+    metodoPago?: StringFieldUpdateOperationsInput | string
+    documento?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DetalleVentaCreateInput = {
-    id?: string
     cantidad: number
-    precioUnitario: number
-    subtotal: number
+    precio: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    venta: VentaCreateNestedOneWithoutDetallesInput
-    producto: ProductoCreateNestedOneWithoutDetallesVentaInput
+    venta: VentaCreateNestedOneWithoutProductosInput
+    producto: ProductoCreateNestedOneWithoutVentasInput
   }
 
   export type DetalleVentaUncheckedCreateInput = {
-    id?: string
+    id?: number
+    ventaId: number
+    productoId: number
     cantidad: number
-    precioUnitario: number
-    subtotal: number
-    ventaId: string
-    productoId: string
+    precio: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type DetalleVentaUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     cantidad?: IntFieldUpdateOperationsInput | number
-    precioUnitario?: FloatFieldUpdateOperationsInput | number
-    subtotal?: FloatFieldUpdateOperationsInput | number
+    precio?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    venta?: VentaUpdateOneRequiredWithoutDetallesNestedInput
-    producto?: ProductoUpdateOneRequiredWithoutDetallesVentaNestedInput
+    venta?: VentaUpdateOneRequiredWithoutProductosNestedInput
+    producto?: ProductoUpdateOneRequiredWithoutVentasNestedInput
   }
 
   export type DetalleVentaUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
+    ventaId?: IntFieldUpdateOperationsInput | number
+    productoId?: IntFieldUpdateOperationsInput | number
     cantidad?: IntFieldUpdateOperationsInput | number
-    precioUnitario?: FloatFieldUpdateOperationsInput | number
-    subtotal?: FloatFieldUpdateOperationsInput | number
-    ventaId?: StringFieldUpdateOperationsInput | string
-    productoId?: StringFieldUpdateOperationsInput | string
+    precio?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DetalleVentaCreateManyInput = {
-    id?: string
+    id?: number
+    ventaId: number
+    productoId: number
     cantidad: number
-    precioUnitario: number
-    subtotal: number
-    ventaId: string
-    productoId: string
+    precio: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type DetalleVentaUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
     cantidad?: IntFieldUpdateOperationsInput | number
-    precioUnitario?: FloatFieldUpdateOperationsInput | number
-    subtotal?: FloatFieldUpdateOperationsInput | number
+    precio?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DetalleVentaUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
+    ventaId?: IntFieldUpdateOperationsInput | number
+    productoId?: IntFieldUpdateOperationsInput | number
     cantidad?: IntFieldUpdateOperationsInput | number
-    precioUnitario?: FloatFieldUpdateOperationsInput | number
-    subtotal?: FloatFieldUpdateOperationsInput | number
-    ventaId?: StringFieldUpdateOperationsInput | string
-    productoId?: StringFieldUpdateOperationsInput | string
+    precio?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -7811,17 +7821,6 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type FloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[]
-    notIn?: number[]
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
-  }
-
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[]
@@ -7833,10 +7832,40 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type FloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[]
+    notIn?: number[]
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
   export type DetalleVentaListRelationFilter = {
     every?: DetalleVentaWhereInput
     some?: DetalleVentaWhereInput
     none?: DetalleVentaWhereInput
+  }
+
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
   }
 
   export type DetalleVentaOrderByRelationAggregateInput = {
@@ -7849,15 +7878,14 @@ export namespace Prisma {
     descripcion?: SortOrder
     precio?: SortOrder
     stock?: SortOrder
-    stockMinimo?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type ProductoAvgOrderByAggregateInput = {
+    id?: SortOrder
     precio?: SortOrder
     stock?: SortOrder
-    stockMinimo?: SortOrder
   }
 
   export type ProductoMaxOrderByAggregateInput = {
@@ -7866,7 +7894,6 @@ export namespace Prisma {
     descripcion?: SortOrder
     precio?: SortOrder
     stock?: SortOrder
-    stockMinimo?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -7877,31 +7904,14 @@ export namespace Prisma {
     descripcion?: SortOrder
     precio?: SortOrder
     stock?: SortOrder
-    stockMinimo?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type ProductoSumOrderByAggregateInput = {
+    id?: SortOrder
     precio?: SortOrder
     stock?: SortOrder
-    stockMinimo?: SortOrder
-  }
-
-  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[]
-    notIn?: number[]
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedFloatFilter<$PrismaModel>
-    _min?: NestedFloatFilter<$PrismaModel>
-    _max?: NestedFloatFilter<$PrismaModel>
   }
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -7920,7 +7930,7 @@ export namespace Prisma {
     _max?: NestedIntFilter<$PrismaModel>
   }
 
-  export type StringNullableFilter<$PrismaModel = never> = {
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | null
     notIn?: string[] | null
@@ -7931,18 +7941,32 @@ export namespace Prisma {
     contains?: string | StringFieldRefInput<$PrismaModel>
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[]
+    notIn?: number[]
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
   }
 
   export type VentaListRelationFilter = {
     every?: VentaWhereInput
     some?: VentaWhereInput
     none?: VentaWhereInput
-  }
-
-  export type SortOrderInput = {
-    sort: SortOrder
-    nulls?: NullsOrder
   }
 
   export type VentaOrderByRelationAggregateInput = {
@@ -7958,6 +7982,10 @@ export namespace Prisma {
     direccion?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type ClienteAvgOrderByAggregateInput = {
+    id?: SortOrder
   }
 
   export type ClienteMaxOrderByAggregateInput = {
@@ -7982,21 +8010,8 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | null
-    notIn?: string[] | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
+  export type ClienteSumOrderByAggregateInput = {
+    id?: SortOrder
   }
 
   export type ClienteScalarRelationFilter = {
@@ -8006,36 +8021,41 @@ export namespace Prisma {
 
   export type VentaCountOrderByAggregateInput = {
     id?: SortOrder
-    fecha?: SortOrder
     total?: SortOrder
-    clienteId?: SortOrder
+    metodoPago?: SortOrder
+    documento?: SortOrder
+    fecha?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type VentaAvgOrderByAggregateInput = {
+    id?: SortOrder
     total?: SortOrder
   }
 
   export type VentaMaxOrderByAggregateInput = {
     id?: SortOrder
-    fecha?: SortOrder
     total?: SortOrder
-    clienteId?: SortOrder
+    metodoPago?: SortOrder
+    documento?: SortOrder
+    fecha?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type VentaMinOrderByAggregateInput = {
     id?: SortOrder
-    fecha?: SortOrder
     total?: SortOrder
-    clienteId?: SortOrder
+    metodoPago?: SortOrder
+    documento?: SortOrder
+    fecha?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type VentaSumOrderByAggregateInput = {
+    id?: SortOrder
     total?: SortOrder
   }
 
@@ -8051,47 +8071,48 @@ export namespace Prisma {
 
   export type DetalleVentaCountOrderByAggregateInput = {
     id?: SortOrder
-    cantidad?: SortOrder
-    precioUnitario?: SortOrder
-    subtotal?: SortOrder
     ventaId?: SortOrder
     productoId?: SortOrder
+    cantidad?: SortOrder
+    precio?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type DetalleVentaAvgOrderByAggregateInput = {
+    id?: SortOrder
+    ventaId?: SortOrder
+    productoId?: SortOrder
     cantidad?: SortOrder
-    precioUnitario?: SortOrder
-    subtotal?: SortOrder
+    precio?: SortOrder
   }
 
   export type DetalleVentaMaxOrderByAggregateInput = {
     id?: SortOrder
-    cantidad?: SortOrder
-    precioUnitario?: SortOrder
-    subtotal?: SortOrder
     ventaId?: SortOrder
     productoId?: SortOrder
+    cantidad?: SortOrder
+    precio?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type DetalleVentaMinOrderByAggregateInput = {
     id?: SortOrder
-    cantidad?: SortOrder
-    precioUnitario?: SortOrder
-    subtotal?: SortOrder
     ventaId?: SortOrder
     productoId?: SortOrder
+    cantidad?: SortOrder
+    precio?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type DetalleVentaSumOrderByAggregateInput = {
+    id?: SortOrder
+    ventaId?: SortOrder
+    productoId?: SortOrder
     cantidad?: SortOrder
-    precioUnitario?: SortOrder
-    subtotal?: SortOrder
+    precio?: SortOrder
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -8114,6 +8135,10 @@ export namespace Prisma {
     connectOrCreate?: DetalleVentaCreateOrConnectWithoutProductoInput | DetalleVentaCreateOrConnectWithoutProductoInput[]
     createMany?: DetalleVentaCreateManyProductoInputEnvelope
     connect?: DetalleVentaWhereUniqueInput | DetalleVentaWhereUniqueInput[]
+  }
+
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
   }
 
   export type FloatFieldUpdateOperationsInput = {
@@ -8172,10 +8197,6 @@ export namespace Prisma {
     connectOrCreate?: VentaCreateOrConnectWithoutClienteInput | VentaCreateOrConnectWithoutClienteInput[]
     createMany?: VentaCreateManyClienteInputEnvelope
     connect?: VentaWhereUniqueInput | VentaWhereUniqueInput[]
-  }
-
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null
   }
 
   export type VentaUpdateManyWithoutClienteNestedInput = {
@@ -8262,32 +8283,32 @@ export namespace Prisma {
     deleteMany?: DetalleVentaScalarWhereInput | DetalleVentaScalarWhereInput[]
   }
 
-  export type VentaCreateNestedOneWithoutDetallesInput = {
-    create?: XOR<VentaCreateWithoutDetallesInput, VentaUncheckedCreateWithoutDetallesInput>
-    connectOrCreate?: VentaCreateOrConnectWithoutDetallesInput
+  export type VentaCreateNestedOneWithoutProductosInput = {
+    create?: XOR<VentaCreateWithoutProductosInput, VentaUncheckedCreateWithoutProductosInput>
+    connectOrCreate?: VentaCreateOrConnectWithoutProductosInput
     connect?: VentaWhereUniqueInput
   }
 
-  export type ProductoCreateNestedOneWithoutDetallesVentaInput = {
-    create?: XOR<ProductoCreateWithoutDetallesVentaInput, ProductoUncheckedCreateWithoutDetallesVentaInput>
-    connectOrCreate?: ProductoCreateOrConnectWithoutDetallesVentaInput
+  export type ProductoCreateNestedOneWithoutVentasInput = {
+    create?: XOR<ProductoCreateWithoutVentasInput, ProductoUncheckedCreateWithoutVentasInput>
+    connectOrCreate?: ProductoCreateOrConnectWithoutVentasInput
     connect?: ProductoWhereUniqueInput
   }
 
-  export type VentaUpdateOneRequiredWithoutDetallesNestedInput = {
-    create?: XOR<VentaCreateWithoutDetallesInput, VentaUncheckedCreateWithoutDetallesInput>
-    connectOrCreate?: VentaCreateOrConnectWithoutDetallesInput
-    upsert?: VentaUpsertWithoutDetallesInput
+  export type VentaUpdateOneRequiredWithoutProductosNestedInput = {
+    create?: XOR<VentaCreateWithoutProductosInput, VentaUncheckedCreateWithoutProductosInput>
+    connectOrCreate?: VentaCreateOrConnectWithoutProductosInput
+    upsert?: VentaUpsertWithoutProductosInput
     connect?: VentaWhereUniqueInput
-    update?: XOR<XOR<VentaUpdateToOneWithWhereWithoutDetallesInput, VentaUpdateWithoutDetallesInput>, VentaUncheckedUpdateWithoutDetallesInput>
+    update?: XOR<XOR<VentaUpdateToOneWithWhereWithoutProductosInput, VentaUpdateWithoutProductosInput>, VentaUncheckedUpdateWithoutProductosInput>
   }
 
-  export type ProductoUpdateOneRequiredWithoutDetallesVentaNestedInput = {
-    create?: XOR<ProductoCreateWithoutDetallesVentaInput, ProductoUncheckedCreateWithoutDetallesVentaInput>
-    connectOrCreate?: ProductoCreateOrConnectWithoutDetallesVentaInput
-    upsert?: ProductoUpsertWithoutDetallesVentaInput
+  export type ProductoUpdateOneRequiredWithoutVentasNestedInput = {
+    create?: XOR<ProductoCreateWithoutVentasInput, ProductoUncheckedCreateWithoutVentasInput>
+    connectOrCreate?: ProductoCreateOrConnectWithoutVentasInput
+    upsert?: ProductoUpsertWithoutVentasInput
     connect?: ProductoWhereUniqueInput
-    update?: XOR<XOR<ProductoUpdateToOneWithWhereWithoutDetallesVentaInput, ProductoUpdateWithoutDetallesVentaInput>, ProductoUncheckedUpdateWithoutDetallesVentaInput>
+    update?: XOR<XOR<ProductoUpdateToOneWithWhereWithoutVentasInput, ProductoUpdateWithoutVentasInput>, ProductoUncheckedUpdateWithoutVentasInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -8357,6 +8378,20 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
   export type NestedFloatFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[]
@@ -8366,22 +8401,6 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatFilter<$PrismaModel> | number
-  }
-
-  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[]
-    notIn?: number[]
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedFloatFilter<$PrismaModel>
-    _min?: NestedFloatFilter<$PrismaModel>
-    _max?: NestedFloatFilter<$PrismaModel>
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -8398,20 +8417,6 @@ export namespace Prisma {
     _sum?: NestedIntFilter<$PrismaModel>
     _min?: NestedIntFilter<$PrismaModel>
     _max?: NestedIntFilter<$PrismaModel>
-  }
-
-  export type NestedStringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | null
-    notIn?: string[] | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -8442,22 +8447,35 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
+  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[]
+    notIn?: number[]
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
+  }
+
   export type DetalleVentaCreateWithoutProductoInput = {
-    id?: string
     cantidad: number
-    precioUnitario: number
-    subtotal: number
+    precio: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    venta: VentaCreateNestedOneWithoutDetallesInput
+    venta: VentaCreateNestedOneWithoutProductosInput
   }
 
   export type DetalleVentaUncheckedCreateWithoutProductoInput = {
-    id?: string
+    id?: number
+    ventaId: number
     cantidad: number
-    precioUnitario: number
-    subtotal: number
-    ventaId: string
+    precio: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -8491,32 +8509,32 @@ export namespace Prisma {
     AND?: DetalleVentaScalarWhereInput | DetalleVentaScalarWhereInput[]
     OR?: DetalleVentaScalarWhereInput[]
     NOT?: DetalleVentaScalarWhereInput | DetalleVentaScalarWhereInput[]
-    id?: StringFilter<"DetalleVenta"> | string
+    id?: IntFilter<"DetalleVenta"> | number
+    ventaId?: IntFilter<"DetalleVenta"> | number
+    productoId?: IntFilter<"DetalleVenta"> | number
     cantidad?: IntFilter<"DetalleVenta"> | number
-    precioUnitario?: FloatFilter<"DetalleVenta"> | number
-    subtotal?: FloatFilter<"DetalleVenta"> | number
-    ventaId?: StringFilter<"DetalleVenta"> | string
-    productoId?: StringFilter<"DetalleVenta"> | string
+    precio?: FloatFilter<"DetalleVenta"> | number
     createdAt?: DateTimeFilter<"DetalleVenta"> | Date | string
     updatedAt?: DateTimeFilter<"DetalleVenta"> | Date | string
   }
 
   export type VentaCreateWithoutClienteInput = {
-    id?: string
-    fecha?: Date | string
     total: number
+    metodoPago: string
+    fecha?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
-    detalles?: DetalleVentaCreateNestedManyWithoutVentaInput
+    productos?: DetalleVentaCreateNestedManyWithoutVentaInput
   }
 
   export type VentaUncheckedCreateWithoutClienteInput = {
-    id?: string
-    fecha?: Date | string
+    id?: number
     total: number
+    metodoPago: string
+    fecha?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
-    detalles?: DetalleVentaUncheckedCreateNestedManyWithoutVentaInput
+    productos?: DetalleVentaUncheckedCreateNestedManyWithoutVentaInput
   }
 
   export type VentaCreateOrConnectWithoutClienteInput = {
@@ -8548,16 +8566,16 @@ export namespace Prisma {
     AND?: VentaScalarWhereInput | VentaScalarWhereInput[]
     OR?: VentaScalarWhereInput[]
     NOT?: VentaScalarWhereInput | VentaScalarWhereInput[]
-    id?: StringFilter<"Venta"> | string
-    fecha?: DateTimeFilter<"Venta"> | Date | string
+    id?: IntFilter<"Venta"> | number
     total?: FloatFilter<"Venta"> | number
-    clienteId?: StringFilter<"Venta"> | string
+    metodoPago?: StringFilter<"Venta"> | string
+    documento?: StringFilter<"Venta"> | string
+    fecha?: DateTimeFilter<"Venta"> | Date | string
     createdAt?: DateTimeFilter<"Venta"> | Date | string
     updatedAt?: DateTimeFilter<"Venta"> | Date | string
   }
 
   export type ClienteCreateWithoutVentasInput = {
-    id?: string
     nombre: string
     documento: string
     telefono?: string | null
@@ -8568,7 +8586,7 @@ export namespace Prisma {
   }
 
   export type ClienteUncheckedCreateWithoutVentasInput = {
-    id?: string
+    id?: number
     nombre: string
     documento: string
     telefono?: string | null
@@ -8584,21 +8602,18 @@ export namespace Prisma {
   }
 
   export type DetalleVentaCreateWithoutVentaInput = {
-    id?: string
     cantidad: number
-    precioUnitario: number
-    subtotal: number
+    precio: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    producto: ProductoCreateNestedOneWithoutDetallesVentaInput
+    producto: ProductoCreateNestedOneWithoutVentasInput
   }
 
   export type DetalleVentaUncheckedCreateWithoutVentaInput = {
-    id?: string
+    id?: number
+    productoId: number
     cantidad: number
-    precioUnitario: number
-    subtotal: number
-    productoId: string
+    precio: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -8624,7 +8639,6 @@ export namespace Prisma {
   }
 
   export type ClienteUpdateWithoutVentasInput = {
-    id?: StringFieldUpdateOperationsInput | string
     nombre?: StringFieldUpdateOperationsInput | string
     documento?: StringFieldUpdateOperationsInput | string
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8635,7 +8649,7 @@ export namespace Prisma {
   }
 
   export type ClienteUncheckedUpdateWithoutVentasInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
     nombre?: StringFieldUpdateOperationsInput | string
     documento?: StringFieldUpdateOperationsInput | string
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8661,228 +8675,217 @@ export namespace Prisma {
     data: XOR<DetalleVentaUpdateManyMutationInput, DetalleVentaUncheckedUpdateManyWithoutVentaInput>
   }
 
-  export type VentaCreateWithoutDetallesInput = {
-    id?: string
-    fecha?: Date | string
+  export type VentaCreateWithoutProductosInput = {
     total: number
+    metodoPago: string
+    fecha?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
     cliente: ClienteCreateNestedOneWithoutVentasInput
   }
 
-  export type VentaUncheckedCreateWithoutDetallesInput = {
-    id?: string
-    fecha?: Date | string
+  export type VentaUncheckedCreateWithoutProductosInput = {
+    id?: number
     total: number
-    clienteId: string
+    metodoPago: string
+    documento: string
+    fecha?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
-  export type VentaCreateOrConnectWithoutDetallesInput = {
+  export type VentaCreateOrConnectWithoutProductosInput = {
     where: VentaWhereUniqueInput
-    create: XOR<VentaCreateWithoutDetallesInput, VentaUncheckedCreateWithoutDetallesInput>
+    create: XOR<VentaCreateWithoutProductosInput, VentaUncheckedCreateWithoutProductosInput>
   }
 
-  export type ProductoCreateWithoutDetallesVentaInput = {
-    id?: string
+  export type ProductoCreateWithoutVentasInput = {
     nombre: string
-    descripcion: string
+    descripcion?: string | null
     precio: number
-    stock: number
-    stockMinimo?: number
+    stock?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
-  export type ProductoUncheckedCreateWithoutDetallesVentaInput = {
-    id?: string
+  export type ProductoUncheckedCreateWithoutVentasInput = {
+    id?: number
     nombre: string
-    descripcion: string
+    descripcion?: string | null
     precio: number
-    stock: number
-    stockMinimo?: number
+    stock?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
-  export type ProductoCreateOrConnectWithoutDetallesVentaInput = {
+  export type ProductoCreateOrConnectWithoutVentasInput = {
     where: ProductoWhereUniqueInput
-    create: XOR<ProductoCreateWithoutDetallesVentaInput, ProductoUncheckedCreateWithoutDetallesVentaInput>
+    create: XOR<ProductoCreateWithoutVentasInput, ProductoUncheckedCreateWithoutVentasInput>
   }
 
-  export type VentaUpsertWithoutDetallesInput = {
-    update: XOR<VentaUpdateWithoutDetallesInput, VentaUncheckedUpdateWithoutDetallesInput>
-    create: XOR<VentaCreateWithoutDetallesInput, VentaUncheckedCreateWithoutDetallesInput>
+  export type VentaUpsertWithoutProductosInput = {
+    update: XOR<VentaUpdateWithoutProductosInput, VentaUncheckedUpdateWithoutProductosInput>
+    create: XOR<VentaCreateWithoutProductosInput, VentaUncheckedCreateWithoutProductosInput>
     where?: VentaWhereInput
   }
 
-  export type VentaUpdateToOneWithWhereWithoutDetallesInput = {
+  export type VentaUpdateToOneWithWhereWithoutProductosInput = {
     where?: VentaWhereInput
-    data: XOR<VentaUpdateWithoutDetallesInput, VentaUncheckedUpdateWithoutDetallesInput>
+    data: XOR<VentaUpdateWithoutProductosInput, VentaUncheckedUpdateWithoutProductosInput>
   }
 
-  export type VentaUpdateWithoutDetallesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+  export type VentaUpdateWithoutProductosInput = {
     total?: FloatFieldUpdateOperationsInput | number
+    metodoPago?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     cliente?: ClienteUpdateOneRequiredWithoutVentasNestedInput
   }
 
-  export type VentaUncheckedUpdateWithoutDetallesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+  export type VentaUncheckedUpdateWithoutProductosInput = {
+    id?: IntFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
-    clienteId?: StringFieldUpdateOperationsInput | string
+    metodoPago?: StringFieldUpdateOperationsInput | string
+    documento?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type ProductoUpsertWithoutDetallesVentaInput = {
-    update: XOR<ProductoUpdateWithoutDetallesVentaInput, ProductoUncheckedUpdateWithoutDetallesVentaInput>
-    create: XOR<ProductoCreateWithoutDetallesVentaInput, ProductoUncheckedCreateWithoutDetallesVentaInput>
+  export type ProductoUpsertWithoutVentasInput = {
+    update: XOR<ProductoUpdateWithoutVentasInput, ProductoUncheckedUpdateWithoutVentasInput>
+    create: XOR<ProductoCreateWithoutVentasInput, ProductoUncheckedCreateWithoutVentasInput>
     where?: ProductoWhereInput
   }
 
-  export type ProductoUpdateToOneWithWhereWithoutDetallesVentaInput = {
+  export type ProductoUpdateToOneWithWhereWithoutVentasInput = {
     where?: ProductoWhereInput
-    data: XOR<ProductoUpdateWithoutDetallesVentaInput, ProductoUncheckedUpdateWithoutDetallesVentaInput>
+    data: XOR<ProductoUpdateWithoutVentasInput, ProductoUncheckedUpdateWithoutVentasInput>
   }
 
-  export type ProductoUpdateWithoutDetallesVentaInput = {
-    id?: StringFieldUpdateOperationsInput | string
+  export type ProductoUpdateWithoutVentasInput = {
     nombre?: StringFieldUpdateOperationsInput | string
-    descripcion?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
     precio?: FloatFieldUpdateOperationsInput | number
     stock?: IntFieldUpdateOperationsInput | number
-    stockMinimo?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type ProductoUncheckedUpdateWithoutDetallesVentaInput = {
-    id?: StringFieldUpdateOperationsInput | string
+  export type ProductoUncheckedUpdateWithoutVentasInput = {
+    id?: IntFieldUpdateOperationsInput | number
     nombre?: StringFieldUpdateOperationsInput | string
-    descripcion?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
     precio?: FloatFieldUpdateOperationsInput | number
     stock?: IntFieldUpdateOperationsInput | number
-    stockMinimo?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DetalleVentaCreateManyProductoInput = {
-    id?: string
+    id?: number
+    ventaId: number
     cantidad: number
-    precioUnitario: number
-    subtotal: number
-    ventaId: string
+    precio: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type DetalleVentaUpdateWithoutProductoInput = {
-    id?: StringFieldUpdateOperationsInput | string
     cantidad?: IntFieldUpdateOperationsInput | number
-    precioUnitario?: FloatFieldUpdateOperationsInput | number
-    subtotal?: FloatFieldUpdateOperationsInput | number
+    precio?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    venta?: VentaUpdateOneRequiredWithoutDetallesNestedInput
+    venta?: VentaUpdateOneRequiredWithoutProductosNestedInput
   }
 
   export type DetalleVentaUncheckedUpdateWithoutProductoInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
+    ventaId?: IntFieldUpdateOperationsInput | number
     cantidad?: IntFieldUpdateOperationsInput | number
-    precioUnitario?: FloatFieldUpdateOperationsInput | number
-    subtotal?: FloatFieldUpdateOperationsInput | number
-    ventaId?: StringFieldUpdateOperationsInput | string
+    precio?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DetalleVentaUncheckedUpdateManyWithoutProductoInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
+    ventaId?: IntFieldUpdateOperationsInput | number
     cantidad?: IntFieldUpdateOperationsInput | number
-    precioUnitario?: FloatFieldUpdateOperationsInput | number
-    subtotal?: FloatFieldUpdateOperationsInput | number
-    ventaId?: StringFieldUpdateOperationsInput | string
+    precio?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type VentaCreateManyClienteInput = {
-    id?: string
-    fecha?: Date | string
+    id?: number
     total: number
+    metodoPago: string
+    fecha?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type VentaUpdateWithoutClienteInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     total?: FloatFieldUpdateOperationsInput | number
+    metodoPago?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    detalles?: DetalleVentaUpdateManyWithoutVentaNestedInput
+    productos?: DetalleVentaUpdateManyWithoutVentaNestedInput
   }
 
   export type VentaUncheckedUpdateWithoutClienteInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    id?: IntFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    metodoPago?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    detalles?: DetalleVentaUncheckedUpdateManyWithoutVentaNestedInput
+    productos?: DetalleVentaUncheckedUpdateManyWithoutVentaNestedInput
   }
 
   export type VentaUncheckedUpdateManyWithoutClienteInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    id?: IntFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    metodoPago?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DetalleVentaCreateManyVentaInput = {
-    id?: string
+    id?: number
+    productoId: number
     cantidad: number
-    precioUnitario: number
-    subtotal: number
-    productoId: string
+    precio: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type DetalleVentaUpdateWithoutVentaInput = {
-    id?: StringFieldUpdateOperationsInput | string
     cantidad?: IntFieldUpdateOperationsInput | number
-    precioUnitario?: FloatFieldUpdateOperationsInput | number
-    subtotal?: FloatFieldUpdateOperationsInput | number
+    precio?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    producto?: ProductoUpdateOneRequiredWithoutDetallesVentaNestedInput
+    producto?: ProductoUpdateOneRequiredWithoutVentasNestedInput
   }
 
   export type DetalleVentaUncheckedUpdateWithoutVentaInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
+    productoId?: IntFieldUpdateOperationsInput | number
     cantidad?: IntFieldUpdateOperationsInput | number
-    precioUnitario?: FloatFieldUpdateOperationsInput | number
-    subtotal?: FloatFieldUpdateOperationsInput | number
-    productoId?: StringFieldUpdateOperationsInput | string
+    precio?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DetalleVentaUncheckedUpdateManyWithoutVentaInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
+    productoId?: IntFieldUpdateOperationsInput | number
     cantidad?: IntFieldUpdateOperationsInput | number
-    precioUnitario?: FloatFieldUpdateOperationsInput | number
-    subtotal?: FloatFieldUpdateOperationsInput | number
-    productoId?: StringFieldUpdateOperationsInput | string
+    precio?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

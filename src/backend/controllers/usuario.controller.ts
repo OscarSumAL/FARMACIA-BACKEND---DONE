@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '../../generated/prisma';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
@@ -72,24 +72,12 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
       });
     }
 
-    // Generar token JWT
-    const token = jwt.sign(
-      { id: usuario.id, email: usuario.email, role: usuario.role },
-      process.env.JWT_SECRET || 'default_secret',
-      { expiresIn: '1d' }
-    );
-
+    // Enviar los datos del usuario (sin la contraseña)
+    const { password: _, ...usuarioSinPassword } = usuario;
+    
     res.json({
       success: true,
-      data: {
-        token,
-        usuario: {
-          id: usuario.id,
-          email: usuario.email,
-          nombre: usuario.nombre,
-          role: usuario.role
-        }
-      }
+      data: usuarioSinPassword
     });
   } catch (error) {
     next(error);
