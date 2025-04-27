@@ -1,0 +1,86 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  nombre    String
+  password  String
+  role      String   @default("ADMIN")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([email])
+}
+
+model Producto {
+  id            String         @id @default(cuid())
+  nombre        String
+  descripcion   String
+  precio        Float
+  stock         Int
+  stockMinimo   Int            @default(5)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  detallesVenta DetalleVenta[]
+
+  @@index([nombre])
+}
+
+model Cliente {
+  id        String   @id @default(cuid())
+  nombre    String
+  documento String   @unique
+  telefono  String?
+  email     String?  @unique
+  direccion String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ventas    Venta[]
+
+  @@index([documento])
+  @@index([email])
+}
+
+model Venta {
+  id        String         @id @default(cuid())
+  fecha     DateTime       @default(now())
+  total     Float
+  clienteId String
+  cliente   Cliente        @relation(fields: [clienteId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  detalles  DetalleVenta[]
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+
+  @@index([clienteId])
+  @@index([fecha])
+}
+
+model DetalleVenta {
+  id             String   @id @default(cuid())
+  cantidad       Int
+  precioUnitario Float
+  subtotal       Float
+  ventaId        String
+  venta          Venta    @relation(fields: [ventaId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  productoId     String
+  producto       Producto @relation(fields: [productoId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([ventaId])
+  @@index([productoId])
+}
