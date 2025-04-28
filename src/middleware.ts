@@ -1,34 +1,33 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { isProtectedRoute, isAdminRoute } from './backend/middleware/auth.middleware';
-import { getToken } from 'next-auth/jwt';
 
-export async function middleware(request: NextRequest) {
-  const path = request.nextUrl.pathname;
+export function middleware(request: NextRequest) {
+  const isAuthenticated = request.cookies.has('isAuthenticated');
+  const isAuthPage = request.nextUrl.pathname === '/login';
 
-  // Verificar si la ruta requiere autenticación
-  if (isProtectedRoute(path) || isAdminRoute(path)) {
-    const token = await getToken({ req: request });
+  // Si no está autenticado y no está en la página de login, redirigir a login
+  if (!isAuthenticated && !isAuthPage) {
+    return NextResponse.redirect(new URL('/login', request.url));
+  }
 
-    if (!token) {
-      return NextResponse.json(
-        { success: false, error: 'No autorizado' },
-        { status: 401 }
-      );
-    }
-
-    // Verificar rol de administrador para rutas admin
-    if (isAdminRoute(path) && token.role !== 'ADMIN') {
-      return NextResponse.json(
-        { success: false, error: 'Acceso denegado' },
-        { status: 403 }
-      );
-    }
+  // Si está autenticado y está en la página de login, redirigir a productos
+  if (isAuthenticated && isAuthPage) {
+    return NextResponse.redirect(new URL('/productos', request.url));
   }
 
   return NextResponse.next();
 }
 
+// Configurar las rutas que queremos proteger
 export const config = {
-  matcher: '/api/:path*',
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     */
+    '/((?!api|_next/static|_next/image|favicon.ico).*)',
+  ],
 }; 

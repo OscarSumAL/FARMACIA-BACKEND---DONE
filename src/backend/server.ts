@@ -2,19 +2,53 @@ import express, { Request, Response, Router, NextFunction } from 'express';
 import { RequestHandler } from 'express-serve-static-core';
 import { PrismaClient } from '../generated/prisma';
 import cors from 'cors';
+import session from 'express-session';
+
+declare module 'express-session' {
+  interface SessionData {
+    isAuthenticated?: boolean;
+  }
+}
 
 const prisma = new PrismaClient();
 const app = express();
 const router = Router();
-const PORT = Number(process.env.PORT) || 3000;
-const HOST = '0.0.0.0'; // Permitir conexiones desde cualquier IP
-
-// Variable global para controlar el estado de la sesión
-let isAuthenticated = false;
+const PORT = 4000;
+const HOST = '0.0.0.0';
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true
+}));
 app.use(express.json());
+app.use(session({
+  secret: 'tu-secreto-seguro',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: true,
+    maxAge: 24 * 60 * 60 * 1000 // 24 horas
+  }
+}));
+
+// Endpoint raíz
+app.get('/', (_req: Request, res: Response) => {
+  res.json({
+    message: 'API de Farmacia',
+    version: '1.0.0',
+    endpoints: {
+      productos: '/api/productos',
+      ventas: '/api/ventas',
+      clientes: '/api/clientes',
+      auth: {
+        login: '/api/login',
+        logout: '/api/logout'
+      }
+    }
+  });
+});
 
 // Health check endpoint
 app.get('/health', (_req: Request, res: Response) => {
@@ -383,79 +417,56 @@ const getClienteById: RequestHandler<ParamsWithId> = async (req, res, next) => {
   }
 };
 
-// Credenciales hardcodeadas para admin
-const ADMIN_CREDENTIALS = {
-  username: 'admin',
-  password: '12345678'
-};
-
 // Middleware de autenticación
-const checkAuth: RequestHandler = (req, res, next): void => {
-  // No requerir autenticación para login
-  if (req.path === '/login') {
-    next();
+const requireAuth: RequestHandler = (req, res, next) => {
+  if (!req.session.isAuthenticated) {
+    res.status(401).json({ error: 'No autorizado' });
     return;
   }
-
-  if (!isAuthenticated) {
-    res.status(401).json({
-      success: false,
-      message: 'No autorizado. Debe iniciar sesión primero.'
-    });
-    return;
-  }
-
   next();
 };
 
-// Ruta de login simplificada
-router.post('/login', (req, res) => {
+// Rutas de autenticación
+router.post('/login', async (req: Request, res: Response) => {
   const { username, password } = req.body;
-
-  if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
-    isAuthenticated = true; // Establecer el estado de autenticación
-    res.json({
-      success: true,
-      data: {
-        username: 'admin',
-        role: 'ADMIN'
-      }
-    });
+  if (username === 'admin' && password === '12345678') {
+    req.session.isAuthenticated = true;
+    res.json({ message: 'Inicio de sesión exitoso' });
   } else {
-    isAuthenticated = false; // Asegurarse de que el estado sea falso si las credenciales son incorrectas
-    res.status(401).json({
-      success: false,
-      message: 'Credenciales inválidas'
-    });
+    res.status(401).json({ error: 'Credenciales inválidas' });
   }
 });
 
-// Ruta para cerrar sesión
-router.post('/logout', (req, res) => {
-  isAuthenticated = false;
-  res.json({
-    success: true,
-    message: 'Sesión cerrada correctamente'
+router.post('/logout', (req: Request, res: Response) => {
+  req.session.destroy((err) => {
+    if (err) {
+      res.status(500).json({ error: 'Error al cerrar sesión' });
+    } else {
+      res.json({ message: 'Sesión cerrada exitosamente' });
+    }
   });
 });
 
-// Aplicar el middleware de autenticación a todas las rutas excepto login
-router.use(checkAuth);
+// Rutas protegidas
+router.use('/ventas', requireAuth);
+router.use('/clientes', requireAuth);
 
-// Rutas sin autenticación
-router.post('/productos', createProducto);
-router.get('/productos', getAllProductos);
-router.get('/productos/:id', getProductoById);
-router.put('/productos', updateProducto);
-router.patch('/productos/:id/stock', updateProductoStock);
-router.delete('/productos/:id', deleteProducto);
+// Rutas protegidas de productos
+router.get('/productos', requireAuth, getAllProductos);
+router.post('/productos', requireAuth, createProducto);
+router.get('/productos/:id', requireAuth, getProductoById);
+router.put('/productos/:id', requireAuth, updateProducto);
+router.patch('/productos/:id/stock', requireAuth, updateProductoStock);
+router.delete('/productos/:id', requireAuth, deleteProducto);
 
+// Rutas protegidas de ventas
 router.post('/ventas', createVenta);
 router.get('/ventas', getAllVentas);
 router.get('/ventas/reporte', getVentasReporte);
 router.get('/ventas/:id', getVentaById);
 router.get('/ventas/fecha/:fecha', getVentasByFecha);
 
+// Rutas protegidas de clientes
 router.post('/clientes', createCliente);
 router.get('/clientes', getAllClientes);
 router.get('/clientes/:id', getClienteById);

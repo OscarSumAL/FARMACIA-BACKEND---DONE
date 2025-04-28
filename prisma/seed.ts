@@ -36,8 +36,7 @@ async function main() {
         nombre: 'Paracetamol',
         descripcion: 'Analgésico y antipirético',
         precio: 15.50,
-        stock: 100,
-        stockMinimo: 20,
+        stock: 100
       },
     }),
     prisma.producto.create({
@@ -45,8 +44,7 @@ async function main() {
         nombre: 'Ibuprofeno',
         descripcion: 'Antiinflamatorio no esteroideo',
         precio: 25.80,
-        stock: 80,
-        stockMinimo: 15,
+        stock: 80
       },
     }),
     prisma.producto.create({
@@ -54,8 +52,7 @@ async function main() {
         nombre: 'Omeprazol',
         descripcion: 'Inhibidor de la bomba de protones',
         precio: 45.90,
-        stock: 50,
-        stockMinimo: 10,
+        stock: 50
       },
     }),
   ]);
@@ -89,47 +86,46 @@ async function main() {
   // Crear ventas con detalles
   const venta1 = await prisma.venta.create({
     data: {
-      clienteId: clientes[0].id,
+      documento: clientes[0].documento,
       total: 56.80,
-      detalles: {
+      metodoPago: 'efectivo',
+      productos: {
         create: [
           {
             productoId: productos[0].id,
             cantidad: 2,
-            precioUnitario: 15.50,
-            subtotal: 31.00,
+            precio: 15.50
           },
           {
             productoId: productos[1].id,
             cantidad: 1,
-            precioUnitario: 25.80,
-            subtotal: 25.80,
+            precio: 25.80
           },
         ],
       },
     },
     include: {
-      detalles: true,
+      productos: true,
     },
   });
 
   const venta2 = await prisma.venta.create({
     data: {
-      clienteId: clientes[1].id,
+      documento: clientes[1].documento,
       total: 91.80,
-      detalles: {
+      metodoPago: 'tarjeta',
+      productos: {
         create: [
           {
             productoId: productos[2].id,
             cantidad: 2,
-            precioUnitario: 45.90,
-            subtotal: 91.80,
+            precio: 45.90
           },
         ],
       },
     },
     include: {
-      detalles: true,
+      productos: true,
     },
   });
 
