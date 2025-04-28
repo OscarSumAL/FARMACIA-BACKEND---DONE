@@ -130,6 +130,8 @@ exports.Prisma.ProductoScalarFieldEnum = {
   descripcion: 'descripcion',
   precio: 'precio',
   stock: 'stock',
+  stockMinimo: 'stockMinimo',
+  fechaVencimiento: 'fechaVencimiento',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

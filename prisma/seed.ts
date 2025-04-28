@@ -29,35 +29,41 @@ async function main() {
 
   console.log('Usuario admin creado:', admin);
 
-  // Crear productos
-  const productos = await Promise.all([
-    prisma.producto.create({
-      data: {
-        nombre: 'Paracetamol',
-        descripcion: 'Analgésico y antipirético',
-        precio: 15.50,
-        stock: 100
-      },
-    }),
-    prisma.producto.create({
-      data: {
-        nombre: 'Ibuprofeno',
-        descripcion: 'Antiinflamatorio no esteroideo',
-        precio: 25.80,
-        stock: 80
-      },
-    }),
-    prisma.producto.create({
-      data: {
-        nombre: 'Omeprazol',
-        descripcion: 'Inhibidor de la bomba de protones',
-        precio: 45.90,
-        stock: 50
-      },
-    }),
-  ]);
+  // Crear productos con bajo stock
+  const paracetamol = await prisma.producto.create({
+    data: {
+      nombre: 'Paracetamol',
+      descripcion: 'Analgésico y antipirético',
+      precio: 5.99,
+      stock: 3,
+      stockMinimo: 10,
+      fechaVencimiento: new Date('2024-12-31')
+    }
+  });
 
-  console.log('💊 Productos creados:', productos.length);
+  const ibuprofeno = await prisma.producto.create({
+    data: {
+      nombre: 'Ibuprofeno',
+      descripcion: 'Antiinflamatorio',
+      precio: 8.99,
+      stock: 15,
+      stockMinimo: 20,
+      fechaVencimiento: new Date('2024-05-15') // Próximo a vencer
+    }
+  });
+
+  const amoxicilina = await prisma.producto.create({
+    data: {
+      nombre: 'Amoxicilina',
+      descripcion: 'Antibiótico',
+      precio: 12.99,
+      stock: 2,
+      stockMinimo: 8,
+      fechaVencimiento: new Date('2024-04-01') // Próximo a vencer
+    }
+  });
+
+  console.log('💊 Productos creados');
 
   // Crear clientes
   const clientes = await Promise.all([
@@ -87,19 +93,19 @@ async function main() {
   const venta1 = await prisma.venta.create({
     data: {
       documento: clientes[0].documento,
-      total: 56.80,
+      total: 20.97, // 2 paracetamol + 1 ibuprofeno
       metodoPago: 'efectivo',
       productos: {
         create: [
           {
-            productoId: productos[0].id,
+            productoId: paracetamol.id,
             cantidad: 2,
-            precio: 15.50
+            precio: paracetamol.precio
           },
           {
-            productoId: productos[1].id,
+            productoId: ibuprofeno.id,
             cantidad: 1,
-            precio: 25.80
+            precio: ibuprofeno.precio
           },
         ],
       },
@@ -112,14 +118,14 @@ async function main() {
   const venta2 = await prisma.venta.create({
     data: {
       documento: clientes[1].documento,
-      total: 91.80,
+      total: 25.98, // 2 amoxicilina
       metodoPago: 'tarjeta',
       productos: {
         create: [
           {
-            productoId: productos[2].id,
+            productoId: amoxicilina.id,
             cantidad: 2,
-            precio: 45.90
+            precio: amoxicilina.precio
           },
         ],
       },
@@ -131,19 +137,19 @@ async function main() {
 
   console.log('🧾 Ventas creadas:', [venta1, venta2].length);
 
-  // Actualizar stock de productos
+  // Actualizar stock de productos después de las ventas
   await Promise.all([
     prisma.producto.update({
-      where: { id: productos[0].id },
-      data: { stock: 98 }, // 100 - 2
+      where: { id: paracetamol.id },
+      data: { stock: paracetamol.stock - 2 },
     }),
     prisma.producto.update({
-      where: { id: productos[1].id },
-      data: { stock: 79 }, // 80 - 1
+      where: { id: ibuprofeno.id },
+      data: { stock: ibuprofeno.stock - 1 },
     }),
     prisma.producto.update({
-      where: { id: productos[2].id },
-      data: { stock: 48 }, // 50 - 2
+      where: { id: amoxicilina.id },
+      data: { stock: amoxicilina.stock - 2 },
     }),
   ]);
 

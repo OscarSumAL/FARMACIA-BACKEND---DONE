@@ -442,9 +442,17 @@ router.post('/logout', (req: Request, res: Response) => {
     if (err) {
       res.status(500).json({ error: 'Error al cerrar sesión' });
     } else {
-      res.json({ message: 'Sesión cerrada exitosamente' });
+      res.json({ message: 'Sesión cerrada correctamente' });
     }
   });
+});
+
+router.get('/check-session', (req: Request, res: Response) => {
+  if (req.session.isAuthenticated) {
+    res.json({ isAuthenticated: true });
+  } else {
+    res.status(401).json({ isAuthenticated: false });
+  }
 });
 
 // Rutas protegidas
@@ -454,6 +462,37 @@ router.use('/clientes', requireAuth);
 // Rutas protegidas de productos
 router.get('/productos', requireAuth, getAllProductos);
 router.post('/productos', requireAuth, createProducto);
+router.get('/productos/bajo-stock', requireAuth, async (_req, res, next) => {
+  try {
+    const productos = await prisma.producto.findMany({
+      where: {
+        stock: {
+          lte: 5
+        }
+      }
+    });
+    res.json({ success: true, data: productos });
+  } catch (error) {
+    next(error);
+  }
+});
+router.get('/productos/por-vencer', requireAuth, async (_req, res, next) => {
+  try {
+    const fechaLimite = new Date();
+    fechaLimite.setDate(fechaLimite.getDate() + 30);
+    const productos = await prisma.producto.findMany({
+      where: {
+        AND: [
+          { fechaVencimiento: { not: null } },
+          { fechaVencimiento: { lte: fechaLimite } }
+        ]
+      }
+    });
+    res.json({ success: true, data: productos });
+  } catch (error) {
+    next(error);
+  }
+});
 router.get('/productos/:id', requireAuth, getProductoById);
 router.put('/productos/:id', requireAuth, updateProducto);
 router.patch('/productos/:id/stock', requireAuth, updateProductoStock);

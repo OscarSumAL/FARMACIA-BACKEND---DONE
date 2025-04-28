@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, type Producto } from '../../generated/prisma';
 
 const prisma = new PrismaClient();
 
@@ -131,7 +131,7 @@ export const deleteProducto = async (req: Request, res: Response, next: NextFunc
     const { id } = req.params;
 
     // Verificar si el producto tiene ventas asociadas
-    const productoVentas = await prisma.productoVenta.findFirst({
+    const productoVentas = await prisma.detalleVenta.findFirst({
       where: { productoId: parseInt(id) }
     });
 
@@ -149,6 +149,56 @@ export const deleteProducto = async (req: Request, res: Response, next: NextFunc
     res.json({
       success: true,
       message: 'Producto eliminado correctamente'
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getProductosPorVencer = async (_req: Request, res: Response, next: NextFunction) => {
+  try {
+    const fechaLimite = new Date();
+    fechaLimite.setDate(fechaLimite.getDate() + 30); // Productos que vencen en los próximos 30 días
+
+    const productos = await prisma.producto.findMany({
+      where: {
+        AND: [
+          {
+            fechaVencimiento: {
+              not: null
+            }
+          },
+          {
+            fechaVencimiento: {
+              lte: fechaLimite
+            }
+          }
+        ]
+      }
+    });
+
+    res.json({
+      success: true,
+      data: productos
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getProductosBajoStock = async (_req: Request, res: Response, next: NextFunction) => {
+  try {
+    const productos = await prisma.producto.findMany({
+      where: {
+        stock: {
+          lte: 5
+        }
+      }
+    });
+    
+    res.json({
+      success: true,
+      data: productos
     });
   } catch (error) {
     next(error);
