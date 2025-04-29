@@ -64,14 +64,61 @@ interface ParamsWithFecha {
 }
 
 // Rutas de Productos
-const createProducto: RequestHandler = async (req, res, next) => {
+const createProducto: RequestHandler = async (req, res, next): Promise<void> => {
   try {
+    const { nombre, descripcion, precio, stock, categoria, fechaVencimiento } = req.body;
+
+    // Validar campos requeridos
+    if (!nombre || !categoria || precio === undefined || stock === undefined) {
+      res.status(400).json({
+        success: false,
+        message: 'Faltan campos requeridos (nombre, categoria, precio, stock)'
+      });
+      return;
+    }
+
+    // Convertir y validar tipos de datos
+    const precioNum = parseFloat(precio);
+    const stockNum = parseInt(stock);
+
+    if (isNaN(precioNum) || isNaN(stockNum)) {
+      res.status(400).json({
+        success: false,
+        message: 'Precio y stock deben ser números válidos'
+      });
+      return;
+    }
+
+    // Crear el producto con los datos validados
     const producto = await prisma.producto.create({
-      data: req.body
+      data: {
+        nombre,
+        descripcion: descripcion || '',
+        precio: precioNum,
+        stock: stockNum,
+        categoria,
+        fechaVencimiento: fechaVencimiento ? new Date(fechaVencimiento) : null,
+        stockMinimo: 5 // Valor por defecto
+      }
     });
-    res.json({ success: true, data: producto });
+
+    res.status(201).json({ 
+      success: true, 
+      data: producto 
+    });
+    return;
   } catch (error: any) {
-    next(error);
+    console.error('Error al crear producto:', error);
+    if (error.code === 'P2002') {
+      res.status(400).json({
+        success: false,
+        message: 'Ya existe un producto con ese nombre'
+      });
+      return;
+    } else {
+      next(error);
+      return;
+    }
   }
 };
 

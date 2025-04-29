@@ -5,15 +5,25 @@ const prisma = new PrismaClient();
 
 export const createProducto = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { nombre, descripcion, precio, stock, stockMinimo } = req.body;
+    const { nombre, descripcion, precio, stock, categoria, fechaVencimiento } = req.body;
+
+    // Validar campos requeridos
+    if (!nombre || !categoria || precio === undefined || stock === undefined) {
+      return res.status(400).json({
+        success: false,
+        message: 'Faltan campos requeridos'
+      });
+    }
 
     const producto = await prisma.producto.create({
       data: {
         nombre,
-        descripcion,
+        descripcion: descripcion || '',
         precio: parseFloat(precio),
         stock: parseInt(stock),
-        stockMinimo: parseInt(stockMinimo || '5')
+        categoria,
+        fechaVencimiento: fechaVencimiento || null,
+        stockMinimo: 5 // Valor por defecto
       }
     });
 
@@ -22,6 +32,7 @@ export const createProducto = async (req: Request, res: Response, next: NextFunc
       data: producto
     });
   } catch (error) {
+    console.error('Error al crear producto:', error);
     next(error);
   }
 };

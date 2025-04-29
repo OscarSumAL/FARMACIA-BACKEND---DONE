@@ -25,7 +25,7 @@ export interface Producto {
   precio: number;
   stock: number;
   categoria: string;
-  fechaVencimiento?: string;
+  fechaVencimiento?: string | null;
 }
 
 export interface Cliente {
@@ -55,10 +55,10 @@ export const ProductosService = {
   getAll: async () => {
     try {
       const response = await axios.get(`${API_URL}/productos`);
-      return response.data;
+      return response.data || [];
     } catch (error) {
       console.error('Error en getAll productos:', error);
-      return { data: [] };
+      return [];
     }
   },
 
@@ -68,8 +68,28 @@ export const ProductosService = {
   },
 
   create: async (producto: Omit<Producto, 'id'>) => {
-    const response = await axios.post(`${API_URL}/productos`, producto);
-    return response.data;
+    try {
+      // Validar que los campos numéricos sean números válidos
+      const productoValidado = {
+        ...producto,
+        precio: Number(producto.precio),
+        stock: Number(producto.stock)
+      };
+
+      // Validar que los campos requeridos no estén vacíos
+      if (!productoValidado.nombre || !productoValidado.categoria) {
+        throw new Error('Nombre y categoría son campos requeridos');
+      }
+
+      const response = await axios.post(`${API_URL}/productos`, productoValidado);
+      return response.data;
+    } catch (error) {
+      console.error('Error en create producto:', error);
+      if (axios.isAxiosError(error)) {
+        throw new Error(error.response?.data?.message || 'Error al crear el producto');
+      }
+      throw error;
+    }
   },
 
   update: async (id: number, producto: Partial<Producto>) => {

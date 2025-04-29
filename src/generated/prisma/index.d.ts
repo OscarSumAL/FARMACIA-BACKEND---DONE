@@ -2377,6 +2377,7 @@ export namespace Prisma {
     precio: number | null
     stock: number | null
     stockMinimo: number | null
+    categoria: string | null
     fechaVencimiento: Date | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -2389,6 +2390,7 @@ export namespace Prisma {
     precio: number | null
     stock: number | null
     stockMinimo: number | null
+    categoria: string | null
     fechaVencimiento: Date | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -2401,6 +2403,7 @@ export namespace Prisma {
     precio: number
     stock: number
     stockMinimo: number
+    categoria: number
     fechaVencimiento: number
     createdAt: number
     updatedAt: number
@@ -2429,6 +2432,7 @@ export namespace Prisma {
     precio?: true
     stock?: true
     stockMinimo?: true
+    categoria?: true
     fechaVencimiento?: true
     createdAt?: true
     updatedAt?: true
@@ -2441,6 +2445,7 @@ export namespace Prisma {
     precio?: true
     stock?: true
     stockMinimo?: true
+    categoria?: true
     fechaVencimiento?: true
     createdAt?: true
     updatedAt?: true
@@ -2453,6 +2458,7 @@ export namespace Prisma {
     precio?: true
     stock?: true
     stockMinimo?: true
+    categoria?: true
     fechaVencimiento?: true
     createdAt?: true
     updatedAt?: true
@@ -2552,6 +2558,7 @@ export namespace Prisma {
     precio: number
     stock: number
     stockMinimo: number
+    categoria: string
     fechaVencimiento: Date | null
     createdAt: Date
     updatedAt: Date
@@ -2583,6 +2590,7 @@ export namespace Prisma {
     precio?: boolean
     stock?: boolean
     stockMinimo?: boolean
+    categoria?: boolean
     fechaVencimiento?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -2597,6 +2605,7 @@ export namespace Prisma {
     precio?: boolean
     stock?: boolean
     stockMinimo?: boolean
+    categoria?: boolean
     fechaVencimiento?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -2609,6 +2618,7 @@ export namespace Prisma {
     precio?: boolean
     stock?: boolean
     stockMinimo?: boolean
+    categoria?: boolean
     fechaVencimiento?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -2621,12 +2631,13 @@ export namespace Prisma {
     precio?: boolean
     stock?: boolean
     stockMinimo?: boolean
+    categoria?: boolean
     fechaVencimiento?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ProductoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombre" | "descripcion" | "precio" | "stock" | "stockMinimo" | "fechaVencimiento" | "createdAt" | "updatedAt", ExtArgs["result"]["producto"]>
+  export type ProductoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombre" | "descripcion" | "precio" | "stock" | "stockMinimo" | "categoria" | "fechaVencimiento" | "createdAt" | "updatedAt", ExtArgs["result"]["producto"]>
   export type ProductoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     ventas?: boolean | Producto$ventasArgs<ExtArgs>
     _count?: boolean | ProductoCountOutputTypeDefaultArgs<ExtArgs>
@@ -2646,6 +2657,7 @@ export namespace Prisma {
       precio: number
       stock: number
       stockMinimo: number
+      categoria: string
       fechaVencimiento: Date | null
       createdAt: Date
       updatedAt: Date
@@ -3079,6 +3091,7 @@ export namespace Prisma {
     readonly precio: FieldRef<"Producto", 'Float'>
     readonly stock: FieldRef<"Producto", 'Int'>
     readonly stockMinimo: FieldRef<"Producto", 'Int'>
+    readonly categoria: FieldRef<"Producto", 'String'>
     readonly fechaVencimiento: FieldRef<"Producto", 'DateTime'>
     readonly createdAt: FieldRef<"Producto", 'DateTime'>
     readonly updatedAt: FieldRef<"Producto", 'DateTime'>
@@ -6972,6 +6985,7 @@ export namespace Prisma {
     precio: 'precio',
     stock: 'stock',
     stockMinimo: 'stockMinimo',
+    categoria: 'categoria',
     fechaVencimiento: 'fechaVencimiento',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -7144,6 +7158,7 @@ export namespace Prisma {
     precio?: FloatFilter<"Producto"> | number
     stock?: IntFilter<"Producto"> | number
     stockMinimo?: IntFilter<"Producto"> | number
+    categoria?: StringFilter<"Producto"> | string
     fechaVencimiento?: DateTimeNullableFilter<"Producto"> | Date | string | null
     createdAt?: DateTimeFilter<"Producto"> | Date | string
     updatedAt?: DateTimeFilter<"Producto"> | Date | string
@@ -7157,6 +7172,7 @@ export namespace Prisma {
     precio?: SortOrder
     stock?: SortOrder
     stockMinimo?: SortOrder
+    categoria?: SortOrder
     fechaVencimiento?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -7173,6 +7189,7 @@ export namespace Prisma {
     precio?: FloatFilter<"Producto"> | number
     stock?: IntFilter<"Producto"> | number
     stockMinimo?: IntFilter<"Producto"> | number
+    categoria?: StringFilter<"Producto"> | string
     fechaVencimiento?: DateTimeNullableFilter<"Producto"> | Date | string | null
     createdAt?: DateTimeFilter<"Producto"> | Date | string
     updatedAt?: DateTimeFilter<"Producto"> | Date | string
@@ -7186,6 +7203,7 @@ export namespace Prisma {
     precio?: SortOrder
     stock?: SortOrder
     stockMinimo?: SortOrder
+    categoria?: SortOrder
     fechaVencimiento?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -7206,6 +7224,7 @@ export namespace Prisma {
     precio?: FloatWithAggregatesFilter<"Producto"> | number
     stock?: IntWithAggregatesFilter<"Producto"> | number
     stockMinimo?: IntWithAggregatesFilter<"Producto"> | number
+    categoria?: StringWithAggregatesFilter<"Producto"> | string
     fechaVencimiento?: DateTimeNullableWithAggregatesFilter<"Producto"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Producto"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Producto"> | Date | string
@@ -7499,6 +7518,7 @@ export namespace Prisma {
     precio: number
     stock?: number
     stockMinimo?: number
+    categoria: string
     fechaVencimiento?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -7512,6 +7532,7 @@ export namespace Prisma {
     precio: number
     stock?: number
     stockMinimo?: number
+    categoria: string
     fechaVencimiento?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -7524,6 +7545,7 @@ export namespace Prisma {
     precio?: FloatFieldUpdateOperationsInput | number
     stock?: IntFieldUpdateOperationsInput | number
     stockMinimo?: IntFieldUpdateOperationsInput | number
+    categoria?: StringFieldUpdateOperationsInput | string
     fechaVencimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -7537,6 +7559,7 @@ export namespace Prisma {
     precio?: FloatFieldUpdateOperationsInput | number
     stock?: IntFieldUpdateOperationsInput | number
     stockMinimo?: IntFieldUpdateOperationsInput | number
+    categoria?: StringFieldUpdateOperationsInput | string
     fechaVencimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -7550,6 +7573,7 @@ export namespace Prisma {
     precio: number
     stock?: number
     stockMinimo?: number
+    categoria: string
     fechaVencimiento?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -7561,6 +7585,7 @@ export namespace Prisma {
     precio?: FloatFieldUpdateOperationsInput | number
     stock?: IntFieldUpdateOperationsInput | number
     stockMinimo?: IntFieldUpdateOperationsInput | number
+    categoria?: StringFieldUpdateOperationsInput | string
     fechaVencimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -7573,6 +7598,7 @@ export namespace Prisma {
     precio?: FloatFieldUpdateOperationsInput | number
     stock?: IntFieldUpdateOperationsInput | number
     stockMinimo?: IntFieldUpdateOperationsInput | number
+    categoria?: StringFieldUpdateOperationsInput | string
     fechaVencimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -7946,6 +7972,7 @@ export namespace Prisma {
     precio?: SortOrder
     stock?: SortOrder
     stockMinimo?: SortOrder
+    categoria?: SortOrder
     fechaVencimiento?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -7965,6 +7992,7 @@ export namespace Prisma {
     precio?: SortOrder
     stock?: SortOrder
     stockMinimo?: SortOrder
+    categoria?: SortOrder
     fechaVencimiento?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -7977,6 +8005,7 @@ export namespace Prisma {
     precio?: SortOrder
     stock?: SortOrder
     stockMinimo?: SortOrder
+    categoria?: SortOrder
     fechaVencimiento?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -8823,6 +8852,7 @@ export namespace Prisma {
     precio: number
     stock?: number
     stockMinimo?: number
+    categoria: string
     fechaVencimiento?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -8835,6 +8865,7 @@ export namespace Prisma {
     precio: number
     stock?: number
     stockMinimo?: number
+    categoria: string
     fechaVencimiento?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -8892,6 +8923,7 @@ export namespace Prisma {
     precio?: FloatFieldUpdateOperationsInput | number
     stock?: IntFieldUpdateOperationsInput | number
     stockMinimo?: IntFieldUpdateOperationsInput | number
+    categoria?: StringFieldUpdateOperationsInput | string
     fechaVencimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -8904,6 +8936,7 @@ export namespace Prisma {
     precio?: FloatFieldUpdateOperationsInput | number
     stock?: IntFieldUpdateOperationsInput | number
     stockMinimo?: IntFieldUpdateOperationsInput | number
+    categoria?: StringFieldUpdateOperationsInput | string
     fechaVencimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

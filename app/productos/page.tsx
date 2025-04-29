@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { ProductosService, Producto } from '@/services/api';
+import { ProductosService, type Producto } from '@/app/services/api';
 import Link from 'next/link';
 import { FaPlus, FaEdit, FaTrash, FaExclamationTriangle } from 'react-icons/fa';
 
@@ -16,12 +16,15 @@ export default function ProductosPage() {
 
   const cargarProductos = async () => {
     try {
-      const data = await ProductosService.getAll();
-      setProductos(data);
+      const response = await ProductosService.getAll();
+      // Aseguramos que siempre sea un array
+      const productosData = Array.isArray(response) ? response : response.data || [];
+      setProductos(productosData);
       setLoading(false);
     } catch (err) {
       setError('Error al cargar los productos');
       setLoading(false);
+      setProductos([]); // Aseguramos que productos sea un array vacío en caso de error
     }
   };
 
